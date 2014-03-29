@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:id="@+id/form1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical" >
+
+                        <ScrollView
+                            android:id="@+id/ScrollViewOutlet"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:fadingEdge="none"
+                            android:fillViewport="true" >
+
+                            <LinearLayout
+                                android:id="@+id/LinearLayout02"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical" >
+
+                                <TableLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" >
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblKatagori"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Katagori" >
+                                        </TextView>
+
+                                        <Spinner
+                                            android:id="@+id/spnKatagori"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblSubkatagori"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Sub Katagori" >
+                                        </TextView>
+
+                                        <Spinner
+                                            android:id="@+id/spnSubKatagori"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblCompanySku"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Company" >
+                                        </TextView>
+
+                                        <Spinner
+                                            android:id="@+id/spnCompany"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblBrandSku"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Brand" >
+                                        </TextView>
+
+                                        <Spinner
+                                            android:id="@+id/spnBrand"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblBranded"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Posm Rak(Jika ada)" >
+                                        </TextView>
+
+                                        <Spinner
+                                            android:id="@+id/spnPosm"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblBranded"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Jumlah" >
+                                        </TextView>
+
+                                        <EditText
+                                            android:id="@+id/txtJumlah"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="9"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <Button
+                                        android:id="@+id/btnTambahPosm"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:padding="5dp"
+                                        android:text="Tambah Posm  Rak" />
+
+                                    <Button
+                                        android:id="@+id/btnNext"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:padding="5dp"
+                                        android:text="Next" />
+                                </TableLayout>
+                            </LinearLayout>
+                        </ScrollView>
+                    </LinearLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/form2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <ScrollView
+                    android:id="@+id/ScrollViewOutlet"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fadingEdge="none"
+                    android:fillViewport="true" >
+
+                    <LinearLayout
+                        android:id="@+id/layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical" >
+
+                        <Button
+                            android:id="@+id/btnAddSku"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dip"
+                            android:text="Tambah Produk" />
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1" >
+
+                            <TableRow
+                                android:id="@+id/tableRow1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content" >
+
+                                <TextView
+                                    android:id="@+id/txtBrand"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="0"
+                                    android:background="@drawable/border"
+                                    android:focusable="false"
+                                    android:hint="Brand"
+                                    android:paddingLeft="3dp"
+                                    android:singleLine="true" />
+
+                                <TextView
+                                    android:id="@+id/txtProduk"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_column="1"
+                                    android:background="@drawable/border"
+                                    android:focusable="false"
+                                    android:gravity="center"
+                                    android:hint="SKU"
+                                    android:paddingLeft="3dp"
+                                    android:singleLine="true" />
+                            </TableRow>
+                        </TableLayout>
+
+                        <TableLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" >
+
+                            <TableRow
+                                android:id="@+id/tableRow5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="2dip" >
+
+                                <TextView
+                                    android:id="@+id/TextView02"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Jumlah Unit" >
+                                </TextView>
+
+                                <EditText
+                                    android:id="@+id/txtJumlahUnit"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="4" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/tableRow5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="2dip" >
+
+                                <TextView
+                                    android:id="@+id/lblKatagori"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Jumlah Facing" >
+                                </TextView>
+
+                                <EditText
+                                    android:id="@+id/txtJumlahFacing"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="4" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/tableRow5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="2dip" >
+
+                                <TextView
+                                    android:id="@+id/lblLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Label" >
+                                </TextView>
+
+                                <Spinner
+                                    android:id="@+id/spnQuestion"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="" />
+                            </TableRow>
+
+                            <TableRow
+                                android:id="@+id/tableRow5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="2dip" >
+
+                                <TextView
+                                    android:id="@+id/lblCompanyBranded"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Harga" >
+                                </TextView>
+
+                                <EditText
+                                    android:id="@+id/txtHarga"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:inputType="numberDecimal"
+                                    android:maxLength="9" />
+                            </TableRow>
+
+                            <Button
+                                android:id="@+id/btnTambahPromosi"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp"
+                                android:text="Tambah Promosi" />
+
+                            <Button
+                                android:id="@+id/btnSaveSku"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp"
+                                android:text="Simpan SKU" />
+
+                            <TableLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" >
+
+                                <TableRow
+                                    android:id="@+id/tableRow1"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="2dip" >
+
+                                    <Button
+                                        android:id="@+id/btnBack"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:padding="5dp"
+                                        android:text="Back" />
+
+                                    <Button
+                                        android:id="@+id/btnResult"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:padding="5dp"
+                                        android:text="Hasil" />
+                                </TableRow>
+                            </TableLayout>
+                        </TableLayout>
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/form3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical" >
+
+                        <ListView
+                            android:id="@+id/lsFoto"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:gravity="center"
+                            android:horizontalSpacing="5dp"
+                            android:numColumns="auto_fit"
+                            android:scaleType="fitXY"
+                            android:stretchMode="columnWidth"
+                            android:verticalSpacing="5dp" >
+                        </ListView>
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:id="@+id/body1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*" >
+
+                        <TableRow android:id="@+id/Row01" >
+
+                            <Button
+                                android:id="@+id/btnPhoto"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dip"
+                                android:text="Take Photo" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>

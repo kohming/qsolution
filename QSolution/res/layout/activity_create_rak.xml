@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:id="@+id/form1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <TableLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*" >
+
+                        <TableRow
+                            android:id="@+id/tableRow1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dip" >
+
+                            <TextView
+                                android:id="@+id/TextView01"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Group Rak" />
+
+                            <Spinner
+                                android:id="@+id/spnGroupRak"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tableRow1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dip" >
+
+                            <TextView
+                                android:id="@+id/TextView01"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Jenis Rak" />
+
+                            <Spinner
+                                android:id="@+id/spnJenisRak"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tableRow1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dip" >
+
+                            <TextView
+                                android:id="@+id/lblCompanyBranded"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Company" />
+
+                            <Spinner
+                                android:id="@+id/spnCompanyBrand"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tableRow1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dip" >
+
+                            <TextView
+                                android:id="@+id/lblBrandedBranded"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Brand" />
+
+                            <Spinner
+                                android:id="@+id/spnBrandedBrand"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+                        </TableRow>
+
+                        <TableRow
+                            android:id="@+id/tableRow1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="2dip" >
+
+                            <TextView
+                                android:id="@+id/lblBrandedBranded"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Nama Rak" />
+
+                            <EditText
+                                android:id="@+id/txtNamaRak"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:capitalize="characters"
+                                android:hint="Nama rak"
+                                android:inputType="textCapCharacters"
+                                android:maxLength="50"
+                                android:singleLine="true"
+                                android:text="" />
+                        </TableRow>
+                    </TableLayout>
+
+                    <TableLayout
+                        android:id="@+id/body1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*" >
+
+                        <TableRow android:id="@+id/Row01" >
+
+                            <Button
+                                android:id="@+id/btnCreateRak"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dip"
+                                android:text="Tambah Rak" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/form2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical" >
+
+                        <ListView
+                            android:id="@+id/lsPosmRak"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:gravity="center"
+                            android:horizontalSpacing="5dp"
+                            android:numColumns="auto_fit"
+                            android:scaleType="fitXY"
+                            android:stretchMode="columnWidth"
+                            android:verticalSpacing="5dp" >
+                        </ListView>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>

@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:id="@+id/form1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp" >
+
+                    <TextView
+                        android:id="@+id/lblId"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Outlet Id"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/lblName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Outlet Name"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:fillViewport="true" >
+
+                    <LinearLayout
+                        android:id="@+id/layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="0dip"
+                            android:layout_weight="0.9"
+                            android:orientation="vertical" >
+
+                            <TableLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" >
+
+                                <TableRow
+                                    android:id="@+id/tableRow1"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="2dip" >
+
+                                    <TextView
+                                        android:id="@+id/TextView01"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Nama" />
+
+                                    <EditText
+                                        android:id="@+id/txtNamaResponden"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:capitalize="characters"
+                                        android:hint="Responden"
+                                        android:inputType="textCapCharacters"
+                                        android:maxLength="30"
+                                        android:singleLine="true"
+                                        android:text="" >
+                                    </EditText>
+                                </TableRow>
+
+                                <TableRow
+                                    android:id="@+id/tableRow7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="2dip" >
+
+                                    <TextView
+                                        android:id="@+id/TextView02"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Jabatan" >
+                                    </TextView>
+
+                                    <Spinner
+                                        android:id="@+id/spnJabatan"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1" />
+                                </TableRow>
+
+                                <TableRow
+                                    android:id="@+id/tableRow5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="2dip" >
+
+                                    <TextView
+                                        android:id="@+id/lblOmset"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Omset" >
+                                    </TextView>
+
+                                    <EditText
+                                        android:id="@+id/txtOmzet"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="Omset Outlet Perminggu"
+                                        android:inputType="numberDecimal"
+                                        android:maxLength="9" />
+                                </TableRow>
+                            </TableLayout>
+
+                            <LinearLayout
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="5dp" >
+
+                                <TextView
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Longitude" />
+
+                                <EditText
+                                    android:id="@+id/txtLon"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dip"
+                                    android:layout_marginTop="5dip"
+                                    android:layout_weight="1"
+                                    android:inputType="text"
+                                    android:singleLine="true"
+                                    android:text="0" />
+
+                                <TextView
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Latitude" />
+
+                                <EditText
+                                    android:id="@+id/txtLat"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dip"
+                                    android:layout_weight="1"
+                                    android:ellipsize="start"
+                                    android:singleLine="true"
+                                    android:text="0" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <TableLayout
+                            android:id="@+id/body1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="*" >
+
+                            <TableRow
+                                android:id="@+id/Row01"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" >
+
+                                <Button
+                                    android:id="@+id/btnGetPosition"
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dip"
+                                    android:text="Get Position" />
+                            </TableRow>
+                        </TableLayout>
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/form2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical" >
+
+                        <ListView
+                            android:id="@+id/lsFoto"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:gravity="center"
+                            android:horizontalSpacing="5dp"
+                            android:numColumns="auto_fit"
+                            android:scaleType="fitXY"
+                            android:stretchMode="columnWidth"
+                            android:verticalSpacing="5dp" >
+                        </ListView>
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:id="@+id/body1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*" >
+
+                        <TableRow android:id="@+id/Row01" >
+
+                            <Button
+                                android:id="@+id/btnGetPhoto"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dip"
+                                android:text="Take Photo" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>

@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/tabhost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="*" >
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dip" >
+
+                <TextView
+                    android:id="@+id/txtKode"
+                    android:text="Surveyor" />
+
+                <TextView
+                    android:id="@+id/txtFoto"
+                    android:text="Tanggal" />
+            </TableRow>
+        </TableLayout>
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <RelativeLayout
+                android:id="@+id/form1"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" >
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical" >
+
+                        <ScrollView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:fillViewport="true" >
+
+                            <LinearLayout
+                                android:id="@+id/LinearLayout02"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical" >
+
+                                <TableLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content" >
+
+                                    <TableRow
+                                        android:id="@+id/tableRow1"
+                                        android:layout_width="fill_parent"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView01"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Outlet Name" />
+
+                                        <EditText
+                                            android:id="@+id/txtNamaOlt"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:capitalize="characters"
+                                            android:inputType="textCapCharacters"
+                                            android:maxLength="50"
+                                            android:singleLine="true" >
+                                        </EditText>
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Address" >
+                                        </TextView>
+
+                                        <EditText
+                                            android:id="@+id/txtAlamatOlt"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:capitalize="characters"
+                                            android:inputType="textCapCharacters"
+                                            android:maxLength="100"
+                                            android:singleLine="true" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="RT" />
+                                        
+                                        <EditText
+                                            android:id="@+id/txtRt"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="3"
+                                            android:singleLine="true" />
+                                        
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="RW" >
+                                        </TextView>
+
+                                        <EditText
+                                            android:id="@+id/txtRw"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="3"
+                                            android:singleLine="true" />
+  
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow4"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Kode Pos" >
+                                        </TextView>
+
+                                        <EditText
+                                            android:id="@+id/txtKodePos"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="5"
+                                            android:singleLine="true" />
+ 
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Kab/Kota" />
+
+                                        <Spinner
+                                            android:id="@+id/spnKabKota"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow6"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Kecamatan" />
+
+                                        <Spinner
+                                            android:id="@+id/spnKecamatan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                        
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow7"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Kelurahan" >
+                                        </TextView>
+
+                                        <Spinner
+                                            android:id="@+id/spnKelurahan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow9"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblJenisLokasi"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Jenis Lokasi" />
+
+                                        <Spinner
+                                            android:id="@+id/spnJenisLokasi"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow10"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblAksesMasuk"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Akses Masuk" />
+
+
+                                        <Spinner
+                                            android:id="@+id/spnAksesMasuk"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow8"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblStatusBangunan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Status Bangunan" />
+
+                                        <Spinner
+                                            android:id="@+id/spnStatusBangunan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow6"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblLuasBangunan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Luas Bangunan (M2)" />
+
+                                        <EditText
+                                            android:id="@+id/txtLuasBangunan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="9" />
+
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblJenisPelanggan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Pelanggan(%)" />
+
+                                        <EditText
+                                            android:id="@+id/txtJenisPelanggan"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="3" />            
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow3"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblWaktuOperasi"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Waktu Operasi" />
+
+                                        <Spinner
+                                            android:id="@+id/spnWaktuOperasi"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow5"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblJumlahCoc"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Jumlah COC" />
+
+                                        <EditText
+                                            android:id="@+id/txtJumlahCoc"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="numberDecimal"
+                                            android:maxLength="3" />
+                                        
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow6"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblKlasifikasi"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Klasifikasi" />
+
+                                        <Spinner
+                                            android:id="@+id/spnKlasifikasi"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="" />
+                                        
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow11"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblNamaPemilik"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Nama Pemilik" />
+
+                                        <EditText
+                                            android:id="@+id/txtNamaPemilik"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:capitalize="characters"
+                                            android:maxLength="50"
+                                            android:singleLine="true"
+                                            android:text="" />
+                                        
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow12"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/lblHpPemilik"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Telp Pemilik" />
+
+                                        <EditText
+                                            android:id="@+id/txtHpPemilik"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:inputType="phone"
+                                            android:maxLength="12"
+                                            android:singleLine="true"
+                                            android:text="" />
+                                        
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow13"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Longitude" />
+
+                                        <EditText
+                                            android:id="@+id/txtLongitude"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:focusable="false"
+                                            android:text="0" />
+                                    </TableRow>
+
+                                    <TableRow
+                                        android:id="@+id/tableRow13"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:padding="2dip" >
+
+                                        <TextView
+                                            android:id="@+id/TextView02"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="Latitude" />
+
+                                        <EditText
+                                            android:id="@+id/txtLatitude"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:focusable="false"
+                                            android:text="0" />
+                                    </TableRow>
+                                </TableLayout>
+                            </LinearLayout>
+                        </ScrollView>
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:id="@+id/body1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:isScrollContainer="false"
+                        android:stretchColumns="*" >
+
+                        <TableRow android:id="@+id/Row01" >
+
+                            <Button
+                                android:id="@+id/btnGetPos"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dip"
+                                android:onClick="onClick"
+                                android:text="Get position" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/form2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="FASILITAS OUTLET YANG TERSEDIA" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dip" >
+
+                        <TextView
+                            android:id="@+id/TextView01"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Jenis" />
+
+                        <Spinner
+                            android:id="@+id/spnFasilitas"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="2dip" >
+
+                        <TextView
+                            android:id="@+id/TextView01"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Jumlah" />
+
+                        <EditText
+                            android:id="@+id/txtJumlah"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:inputType="numberDecimal"
+                            android:maxLength="2"
+                            android:singleLine="true"
+                            android:text="" />
+                    </TableRow>
+                </TableLayout>
+
+                <Button
+                    android:id="@+id/btnTambah"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dip"
+                    android:onClick="onClick"
+                    android:text="Tambah Fasilitas" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dip"
+                    android:layout_weight="0.9"
+                    android:orientation="vertical" >
+
+                    <ListView
+                        android:id="@+id/lsFasilitas"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center"
+                        android:horizontalSpacing="5dp"
+                        android:numColumns="auto_fit"
+                        android:scaleType="fitXY"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="5dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/form3"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="0dip"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical" >
+
+                        <ListView
+                            android:id="@+id/lsFoto"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:gravity="center"
+                            android:horizontalSpacing="5dp"
+                            android:numColumns="auto_fit"
+                            android:scaleType="fitXY"
+                            android:stretchMode="columnWidth"
+                            android:verticalSpacing="5dp" >
+                        </ListView>
+                    </LinearLayout>
+
+                    <TableLayout
+                        android:id="@+id/body1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:stretchColumns="*" >
+
+                        <TableRow android:id="@+id/Row01" >
+
+                            <Button
+                                android:id="@+id/btnPhoto"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dip"
+                                android:text="Take Photo" />
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>

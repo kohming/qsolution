@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="id.qsolution.main"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="8" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_qsolution_icon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="id.qsolution.main.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="id.qsolution.main.TabSurveySku"
+            android:screenOrientation="portrait" />
+        
+        <activity android:name="id.qsolution.main.TabSurveyOutlet" />
+        <activity android:name="id.qsolution.main.ActivityPilihKategori" />
+        <activity android:name="id.qsolution.main.TabOutletLamaActivityNew" />
+        <activity android:name="id.qsolution.main.ActivityCreateRak" />
+        <activity android:name="id.qsolution.main.TabOutletLamaActivity" />
+        <activity android:name="id.qsolution.main.ReasonActivity" />
+        <activity android:name="id.qsolution.main.UploadDataActivity" />
+        <activity android:name="id.qsolution.main.SurveyedOutletActivity" />
+        <activity android:name="id.qsolution.main.ProductArcivity" />
+        <activity android:name="id.qsolution.main.TabListAuditProduk" />
+        <activity android:name="id.qsolution.main.PromosiActivity" />
+        <activity android:name="id.qsolution.main.BrandActivity" />
+        <activity android:name="id.qsolution.main.LoginActivity" />
+        <activity android:name="id.qsolution.main.OutletsActivity" />
+        <activity android:name="id.qsolution.main.SyncActivity" />
+        <activity android:name="id.qsolution.main.SurveyHomeActivity" />
+        <activity android:name="id.qsolution.main.LocationActivity" />
+        <activity
+            android:name="id.qsolution.main.TabSurveyOutletActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="id.qsolution.main.TabSurveyAudit" />
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+</manifest>

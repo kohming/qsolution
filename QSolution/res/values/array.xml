@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+     <array name="question">
+        <item>Ya</item>
+        <item>Tidak</item>
+    </array>
+    
+    <array name="menuHome">
+        <item>Survey Outlets</item>
+        <item>Sinkronisasi Data</item>
+        <item>Setting</item>
+        <item>Keluar</item>
+    </array>
+    <array name="menuHomeDesc">
+        <item>Aktivitas survey outlet</item>
+        <item>Download Upload Data</item>
+        <item>Setting aplikasi</item>
+        <item>Keluar Aplikasi</item>
+    </array>
+    <array name="menuHomeSurvey">
+        <item>Ambil GPS</item>
+        <item>Survey Outlet Tracking</item>
+        <item>Daftar Survey</item>
+        <item>Upload Survey</item>
+    </array>
+    <array name="menuHomeSurveyDesc">
+        <item>Ambil Posisi GPS</item>
+        <item>Survey Outlet Tracking</item>
+        <item>Daftar Outlet Tersurvey</item>
+        <item>Upload Outlet Tersurvey</item>
+    </array>
+
+</resources>

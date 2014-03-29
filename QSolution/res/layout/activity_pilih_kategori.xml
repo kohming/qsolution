@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <ImageView
+                android:layout_column="0"
+                android:background="@drawable/menu_lines2"
+                android:padding="3dip" />
+
+            <ImageView
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:padding="3dip"
+                android:scaleType="centerInside"
+                android:src="@drawable/small_qasa_logo" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/lblId"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Outlet Id"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Outlet Name"
+            android:textStyle="bold" />
+    </LinearLayout>
+    
+      <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#0000FF"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="DAFTAR KATAGORI"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp" >
+
+        <ListView
+            android:id="@+id/lsKategori"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="false" />
+    </LinearLayout>
+
+</LinearLayout>

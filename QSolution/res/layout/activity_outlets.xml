@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:weightSum="100" >
+    
+      <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="1" >
+
+        <TableRow>
+
+            <ImageView
+                android:layout_column="0"
+                android:background="@drawable/menu_lines2"
+                android:padding="3dip" />
+
+            <ImageView
+                android:layout_column="1"
+                android:layout_gravity="center"
+                android:padding="3dip"
+                android:scaleType="centerInside"
+                android:src="@drawable/small_qasa_logo" />
+        </TableRow>
+    </TableLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="90"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/lsOutlet"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fadingEdge="none"
+            android:footerDividersEnabled="false" />
+
+        <TextView
+            android:id="@+id/android:empty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:text="@string/hello_world" />
+    </LinearLayout>
+
+    <!--
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:background="@drawable/background"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="3dip" >
+
+        <Button
+            android:id="@+id/exit"
+            style="@style/ButtonText"
+            android:layout_width="fill_parent"
+            android:layout_height="48dip"
+            android:background="@drawable/blue_button"
+            android:onClick="onClick"
+            android:text="@string/close" />
+    </LinearLayout>
+    -->
+
+</LinearLayout>
