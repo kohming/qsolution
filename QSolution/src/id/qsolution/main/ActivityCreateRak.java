@@ -1,9 +1,13 @@
 package id.qsolution.main;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import id.qsolution.adapter.RakAdapter;
 import id.qsolution.models.DaftarOutletSurvey;
 import id.qsolution.models.TmBrand;
@@ -89,6 +93,7 @@ public class ActivityCreateRak extends TabActivity {
 	private TtMKunjunganSurveyor kunjungan;
 	private DaftarOutletSurvey kategori;
 	private TtMKunjunganSurveyorDao surveyDao;
+	private Double omsetKategori;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +109,7 @@ public class ActivityCreateRak extends TabActivity {
 		locked = getIntent().getBooleanExtra("locked", false);
 		xcoord = getIntent().getStringExtra("xcoord");
 		ycoord = getIntent().getStringExtra("ycoord");
+		omsetKategori = kunjungan.getOmzetKategori(); 
 	/*	kunjungan =  getIntent().getStringExtra("kunjungan");*/
 		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost(); // The activity TabHost
@@ -450,6 +456,12 @@ public class ActivityCreateRak extends TabActivity {
 				kunjungan.setKodeOutlet(outlet.getKode());
 				kunjungan.setKodeSurveyor(surveyor.getKode());
 				kunjungan.setJamSelesai(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+				kunjungan.setTglSurveySkrg(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+				kunjungan.setTglSurveyBerikut(getTanggalBerikut());
+				kunjungan.setWaktuOperasi(getWaktuOperasi());
+				kunjungan.setXcoord(Double.valueOf(xcoord));
+				kunjungan.setYcoord(Double.valueOf(ycoord));
+				kunjungan.setOmzetKategori(omsetKategori);
 				surveyDao.insert(kunjungan);
 				DaftarOutletSurveyDao daftarOutletDao = new DaftarOutletSurveyDao(getApplicationContext());
 				kategori.setStatus("selesai");
@@ -476,7 +488,63 @@ public class ActivityCreateRak extends TabActivity {
 		}
 	}
 
+	private String getTanggalBerikut() {
+		String untildate= new SimpleDateFormat("yyyy-MM-dd").format(new Date());//can take any date in current format    
+		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );   
+		String convertedDate = "";
+		Calendar cal = Calendar.getInstance();    
+		try {
+			cal.setTime( dateFormat.parse(untildate));
+		} catch (ParseException e) {
+			Log.d("getTanggalBerikut ", e.getMessage());
+		}    
+		cal.add( Calendar.DATE, 7 );    
+		convertedDate = dateFormat.format(cal.getTime());    
+		//System.out.println("Date increase by one.."+convertedDate);
+		return convertedDate;
+	}
 
+	private String getWaktuOperasi() {
+		String dateStart = kunjungan.getJamMulai();
+		String dateStop = new SimpleDateFormat("HH:mm:ss").format(new Date());
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		Date d1 = null;
+		Date d2 = null;
+		long diffMinutes = 0l;
+		try {
+			d1 = format.parse(dateStart);
+			d2 = format.parse(dateStop);
+			long diff = d2.getTime() - d1.getTime();
+			diffMinutes = diff / (60 * 1000) % 60;
+			//in milliseconds
+			/*long diff = d2.getTime() - d1.getTime();
+			long diffSeconds = diff / 1000 % 60;
+			long diffMinutes = diff / (60 * 1000) % 60;
+			long diffHours = diff / (60 * 60 * 1000) % 24;
+			long diffDays = diff / (24 * 60 * 60 * 1000);*/
+ 
+			/*System.out.print(diffDays + " days, ");
+			System.out.print(diffHours + " hours, ");
+			System.out.print(diffMinutes + " minutes, ");
+			System.out.print(diffSeconds + " seconds.");*/
+ 
+		} catch (Exception e) {
+			Log.d("Activity Create Rak ", e.getMessage());
+		}
+		return String.valueOf(diffMinutes);
+	}
+
+	/**
+	 * Get a diff between two dates
+	 * @param date1 the oldest date
+	 * @param date2 the newest date
+	 * @param timeUnit the unit in which you want the diff
+	 * @return the diff value, in the provided unit
+	 */
+	public static long getDateDiff(Date date1, Date date2, TimeUnit timeUnit) {
+	    long diffInMillies = date2.getTime() - date1.getTime();
+	    return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
+	}
 
 	private boolean isRakExits() {
 		TtDKunjunganSurveyorRak rak = new TtDKunjunganSurveyorRak();

@@ -104,6 +104,7 @@ public class PromosiActivity extends Activity {
 						promosiSku.setNamaPromosi(promosi.getNama());
 						promosiSku.setNamaSku(sku.getDeskripsi());
 						promosiSku.setNomorUrut(rak.getNomorUrut());
+						promosiSku.setKodeKategori(kategori.getKodeKategori());
 						promosiDao.insert(promosiSku);
 						txtPromo.setText("");
 						Toast.makeText(getApplicationContext(), "Produk "+sku.getDeskripsi()+" berhasil disimpan", Toast.LENGTH_LONG).show();

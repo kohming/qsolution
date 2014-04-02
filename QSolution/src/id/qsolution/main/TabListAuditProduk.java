@@ -148,6 +148,8 @@ public class TabListAuditProduk extends TabActivity {
 		TtDKunjunganSurveyorRakSkuPromosiDao promsiDao = new TtDKunjunganSurveyorRakSkuPromosiDao(
 				getApplicationContext());
 		promosi.setNomorUrut(rak.getNomorUrut());
+		promosi.setKode(outlet.getKode());
+		promosi.setKodeKategori(kategori.getKodeKategori());
 		listPromosi = promsiDao.listByExample(promosi);
 		adapterPromo = new PromosiAdapter(this, listPromosi);
 		lsPromosi.setAdapter(adapterPromo);

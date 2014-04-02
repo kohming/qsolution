@@ -19,6 +19,7 @@ public class TtDKunjunganSurveyorRakSkuPromosi implements java.io.Serializable {
 	private String nomorUrut;
 	private String kodeSku;
 	private String kodePromosi;
+	private String kodeKategori;
 	private String deskripsi;
 	private String kode;
 	
@@ -79,6 +80,11 @@ public class TtDKunjunganSurveyorRakSkuPromosi implements java.io.Serializable {
 	public void setDeskripsi(String deskripsi) {
 		this.deskripsi = deskripsi;
 	}
-	
+	public String getKodeKategori() {
+		return kodeKategori;
+	}
+	public void setKodeKategori(String kodeKategori) {
+		this.kodeKategori = kodeKategori;
+	}
 
 }
