@@ -1,6 +1,7 @@
 package id.qsolution.main;
 
 import id.qsolution.adapter.FasilitasAdapter;
+import id.qsolution.adapter.KatagoriAdapter;
 import id.qsolution.adapter.PhotoAdapter;
 import id.qsolution.models.TmAksesKunjungan;
 import id.qsolution.models.TmFasilitas;
@@ -400,7 +401,7 @@ public class TabSurveyOutletActivity extends TabActivity {
 		txtLon.setText(ycoord);
 		loadKabupaten();
 		loadKecamatan();
-		loadKelurahan();
+		
 		loadJenisLokasi();
 		if(statusOutlet.equals("MT")){
 			//loadLuasBangunan();
@@ -937,11 +938,12 @@ public class TabSurveyOutletActivity extends TabActivity {
 	}
 	
 
-	private void loadKelurahan() {
+	private void loadKelurahan(TmKecamatan kecamatan) {
 		kelurahan = new TmKelurahan();
+		kelurahan.setKodeKec(kecamatan.getKode());
 		kelurahanDao = new TmKelurahanDao(getApplicationContext());
 		listKelurahan = new ArrayList<TmKelurahan>();
-		listKelurahan = kelurahanDao.listAll();
+		listKelurahan = kelurahanDao.listByExample(kelurahan);
 		lsKelurahan = new String[listKelurahan.size()];
 		for (int i = 0; i < listKelurahan.size(); i++) {
 			kelurahan = listKelurahan.get(i);
@@ -971,9 +973,10 @@ public class TabSurveyOutletActivity extends TabActivity {
 
 	private void loadKecamatan() {
 		kecamatan = new TmKecamatan();
+		kecamatan = getKecamatan();
 		kecamatanDao = new TmKecamatanDao(getApplicationContext());
 		listKabupaten = new ArrayList<TmKabupaten>();
-		listKecamatan = kecamatanDao.listAll();
+		listKecamatan = kecamatanDao.listByExample(kecamatan);
 		lsKecamatan = new String[listKecamatan.size()];
 		for (int i = 0; i < listKecamatan.size(); i++) {
 			kecamatan = listKecamatan.get(i);
@@ -991,7 +994,7 @@ public class TabSurveyOutletActivity extends TabActivity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int index, long arg3) {
 				kecamatan = listKecamatan.get(index);
-				
+				loadKelurahan(kecamatan);
 			}
 
 			@Override
@@ -1001,13 +1004,19 @@ public class TabSurveyOutletActivity extends TabActivity {
 		});
 	}
 	
-	
+
+	private TmKecamatan getKecamatan() {
+		TmKecamatan result = new TmKecamatan();
+		result.setKode(outlet.getKode().substring(2, 9));
+		return result;
+	}
 
 	private void loadKabupaten() {
 		kabupaten = new TmKabupaten();
+		kabupaten = getKabupaten();
 		kabupatenDao = new TmKabupatenDao(getApplicationContext());
 		listKabupaten = new ArrayList<TmKabupaten>();
-		listKabupaten = kabupatenDao.listAll();
+		listKabupaten = kabupatenDao.listByExample(kabupaten);
 		lsKabupaten = new String[listKabupaten.size()];
 		for (int i = 0; i < listKabupaten.size(); i++) {
 			kabupaten = listKabupaten.get(i);
@@ -1031,5 +1040,12 @@ public class TabSurveyOutletActivity extends TabActivity {
 				// TODO Auto-generated method stub
 			}
 		});
+	}
+
+	private TmKabupaten getKabupaten() {
+		TmKabupaten result = new TmKabupaten();
+		String kabupatenKode = outlet.getKode().substring(2, 6);
+		result.setKode(kabupatenKode);
+		return result;
 	}
 }
