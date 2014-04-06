@@ -459,8 +459,8 @@ public class ActivityCreateRak extends TabActivity {
 				kunjungan.setTglSurveySkrg(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 				kunjungan.setTglSurveyBerikut(getTanggalBerikut());
 				kunjungan.setWaktuOperasi(getWaktuOperasi());
-				kunjungan.setXcoord(Double.valueOf(xcoord));
-				kunjungan.setYcoord(Double.valueOf(ycoord));
+				kunjungan.setXcoord(getX(xcoord));
+				kunjungan.setYcoord(getY(ycoord));
 				kunjungan.setOmzetKategori(omsetKategori);
 				surveyDao.insert(kunjungan);
 				DaftarOutletSurveyDao daftarOutletDao = new DaftarOutletSurveyDao(getApplicationContext());
@@ -488,6 +488,26 @@ public class ActivityCreateRak extends TabActivity {
 		}
 	}
 
+	private Double getY(String value) {
+		double result = 0d;
+		try {
+			result = Double.valueOf(value);
+		} catch (Exception e) {
+			return result;
+		}
+		return result;
+	}
+	
+	private Double getX(String value) {
+		double result = 0d;
+		try {
+			result = Double.valueOf(value);
+		} catch (Exception e) {
+			return result;
+		}
+		return result;
+	}
+
 	private String getTanggalBerikut() {
 		String untildate= new SimpleDateFormat("yyyy-MM-dd").format(new Date());//can take any date in current format    
 		SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd" );   
@@ -495,11 +515,15 @@ public class ActivityCreateRak extends TabActivity {
 		Calendar cal = Calendar.getInstance();    
 		try {
 			cal.setTime( dateFormat.parse(untildate));
+			if(outlet.getKode().substring(0, 2).equals("MT")){
+				cal.add( Calendar.DATE, 7 ); 
+			}else{
+				cal.add( Calendar.DATE, 30 ); 
+			}
+			convertedDate = dateFormat.format(cal.getTime()); 
 		} catch (ParseException e) {
-			Log.d("getTanggalBerikut ", e.getMessage());
-		}    
-		cal.add( Calendar.DATE, 7 );    
-		convertedDate = dateFormat.format(cal.getTime());    
+			Log.d("error getTanggalBerikut ", e.getMessage());
+		} 
 		//System.out.println("Date increase by one.."+convertedDate);
 		return convertedDate;
 	}

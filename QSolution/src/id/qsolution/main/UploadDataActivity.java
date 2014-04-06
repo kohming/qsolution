@@ -42,6 +42,8 @@ import id.qsolution.pojos.Photo;
 import id.qsolution.pojos.PhotoRak;
 import id.qsolution.pojos.Upload;
 import id.qsolution.respons.UploadResponsService;
+import id.qsolution.util.NamaFile;
+
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -263,7 +265,6 @@ public class UploadDataActivity extends TabActivity{
 						}
 						if(result.getMassage().equals("200")){
 							kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
-							
 							long[] lChecked = lsData.getCheckItemIds();
 							for(int i = 0;i<lChecked.length;i++){
 								Kunjungan o = kunjunganAdapter.getItem((int) lChecked[i]);
@@ -276,8 +277,10 @@ public class UploadDataActivity extends TabActivity{
 							loadOutlet();
 							//loadSurvey();
 							longToast("upload berhasil");
+						}else{
+							longToast("upload gagal "+result.getMassage());
 						}
-						longToast("upload berhasil");
+						//longToast("upload berhasil");
 					} catch (Exception e) {
 						longToast("upload gagal");
 					}
@@ -561,7 +564,6 @@ public class UploadDataActivity extends TabActivity{
 					TtDKunjunganSurveyorRakSkuDao rakSkuDao = new TtDKunjunganSurveyorRakSkuDao(getApplicationContext());
 					TtDKunjunganSurveyorRakSkuPromosiDao rakSkuPromosiDao = new TtDKunjunganSurveyorRakSkuPromosiDao(getApplicationContext());
 					TmOutletFasilitasDao outletFasilitasDao = new TmOutletFasilitasDao(getApplicationContext());
-					
 					List<KunjunganSurveyorRak> lsRak = new ArrayList<KunjunganSurveyorRak>();
 					List<Outlet> lsStore = new ArrayList<Outlet>();
 					List<KunjunganSurveyor> lsKunjungan = new ArrayList<KunjunganSurveyor>();
@@ -672,7 +674,9 @@ public class UploadDataActivity extends TabActivity{
 					foto.setKodeOutlet(f.getKodeOutlet());
 					/*String[] parts = f.getNamaFile().split("/");
 					foto.setNamaFile(parts[parts.length]+".jpg");*/
-					foto.setNamaFile(f.getNamaFile());
+					String FPATH = f.getNamaFile() + ".jpg";
+					NamaFile myHomePage = new NamaFile(FPATH, '/', '.');
+					foto.setNamaFile(myHomePage.filename());
 					results.add(foto);
 				}
 				return results;
@@ -687,7 +691,9 @@ public class UploadDataActivity extends TabActivity{
 					fotoRak.setKodeKunjungan(rF.getKodeKunjungan());
 					/*String[] parts = rF.getNamaFile().split("/");
 					fotoRak.setNamaFile(parts[parts.length]+".jpg");*/
-					fotoRak.setNamaFile(rF.getNamaFile());
+					String FPATH = rF.getNamaFile() + ".jpg";
+					NamaFile myHomePage = new NamaFile(FPATH, '/', '.');
+					fotoRak.setNamaFile(myHomePage.filename());
 					fotoRak.setKodeOutlet(rF.getKodeOutlet());
 					fotoRak.setNomorUrut(rF.getNomorUrut());
 					fotoRak.setStatus(rF.getStatus());
@@ -721,7 +727,7 @@ public class UploadDataActivity extends TabActivity{
 					s.setJumlahUnit(surveyorRakSku.getJumlahUnit());
 					s.setLblPrice(surveyorRakSku.isLblPrice());
 					s.setKodePackage(surveyorRakSku.getKodePackage());
-					s.setKodeVolum(surveyorRakSku.getKodeSku());
+					s.setKodeVolum(surveyorRakSku.getKodeVolum());
 					s.setNomorUrut(surveyorRakSku.getNomorUrut());
 					s.setKodeKunjungan(surveyorRakSku.getKodeKunjungan());
 					s.setKodeSku(surveyorRakSku.getKodeSku());
