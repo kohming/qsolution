@@ -109,7 +109,7 @@ public class ActivityCreateRak extends TabActivity {
 		locked = getIntent().getBooleanExtra("locked", false);
 		xcoord = getIntent().getStringExtra("xcoord");
 		ycoord = getIntent().getStringExtra("ycoord");
-		omsetKategori = kunjungan.getOmzetKategori(); 
+		//omsetKategori = kunjungan.getOmzetKategori(); 
 	/*	kunjungan =  getIntent().getStringExtra("kunjungan");*/
 		Resources res = getResources(); // Resource object to get Drawables
 		TabHost tabHost = getTabHost(); // The activity TabHost
@@ -147,6 +147,7 @@ public class ActivityCreateRak extends TabActivity {
 		}
 		return result;
 	}
+	
 	private void setListener() {
 		
 		btnCreateRak.setOnClickListener(new OnClickListener() {
@@ -461,7 +462,7 @@ public class ActivityCreateRak extends TabActivity {
 				kunjungan.setWaktuOperasi(getWaktuOperasi());
 				kunjungan.setXcoord(getX(xcoord));
 				kunjungan.setYcoord(getY(ycoord));
-				kunjungan.setOmzetKategori(omsetKategori);
+				kunjungan.setOmzetKategori(getOmsetKategori(kunjungan.getOmzetKategori()));
 				surveyDao.insert(kunjungan);
 				DaftarOutletSurveyDao daftarOutletDao = new DaftarOutletSurveyDao(getApplicationContext());
 				kategori.setStatus("selesai");
@@ -486,6 +487,18 @@ public class ActivityCreateRak extends TabActivity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private Double getOmsetKategori(Double o) {
+		Double  dValue= 0d;
+		try {
+			if(!o.isNaN()) {
+				dValue = o;
+			}
+		} catch (Exception e) {
+			dValue= 0d;
+		}
+		return dValue;
 	}
 
 	private Double getY(String value) {

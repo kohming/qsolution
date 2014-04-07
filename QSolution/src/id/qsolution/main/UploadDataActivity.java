@@ -725,7 +725,11 @@ public class UploadDataActivity extends TabActivity{
 					s.setHargaJual(surveyorRakSku.getHargaJual());
 					s.setJumlahFacing(surveyorRakSku.getJumlahFacing());
 					s.setJumlahUnit(surveyorRakSku.getJumlahUnit());
-					s.setLblPrice(surveyorRakSku.isLblPrice());
+					if(surveyorRakSku.isLblPrice() == true){
+						s.setLblPrice(true);
+					}else{
+						s.setLblPrice(false);
+					}
 					s.setKodePackage(surveyorRakSku.getKodePackage());
 					s.setKodeVolum(surveyorRakSku.getKodeVolum());
 					s.setNomorUrut(surveyorRakSku.getNomorUrut());
@@ -810,17 +814,22 @@ public class UploadDataActivity extends TabActivity{
 
 			private KunjunganSurveyor getKunjungan(TtMKunjunganSurveyor kunjungan) {
 				KunjunganSurveyor k = new KunjunganSurveyor();
-				k.setJabatanResponden(kunjungan.getJabatanResponden());
-				k.setJamMulai(kunjungan.getJamMulai());
-				k.setJamSelesai(kunjungan.getJamSelesai());
 				k.setKode(kunjungan.getKode());
+				k.setTglSurveySkrg(kunjungan.getTglSurveySkrg());
+				k.setTglSurveyBerikut(kunjungan.getTglSurveyBerikut());
 				k.setKodeOutlet(kunjungan.getKodeOutlet());
 				k.setKodeStatus(kunjungan.getKodeStatus());
-				k.setKodeSurveyor(kunjungan.getKodeSurveyor());
-				k.setOmzet(kunjungan.getOmzet());
-				k.setPelanggan(kunjungan.getResponden());
 				k.setResponden(kunjungan.getResponden());
+				k.setKodeSurveyor(kunjungan.getKodeSurveyor());
+				k.setJamMulai(kunjungan.getJamMulai());
+				k.setJamSelesai(kunjungan.getJamSelesai());
+				k.setOmzet(kunjungan.getOmzet());
+				k.setWaktuOperasi(kunjungan.getWaktuOperasi());
+				k.setJabatanResponden(kunjungan.getJabatanResponden());
 				k.setKodeKategori(kunjungan.getKodeKategori());
+				k.setOmzetKategori(kunjungan.getOmzetKategori());
+				k.setXcoord(kunjungan.getXcoord());
+				k.setYcoord(kunjungan.getYcoord());
 				return k;
 			}
 

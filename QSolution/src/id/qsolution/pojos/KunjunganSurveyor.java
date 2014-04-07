@@ -14,18 +14,15 @@ public class KunjunganSurveyor implements Serializable {
 	private String jamSelesai;
 	private String pelanggan;
 	private Double omzet;
+	private Double omzetKategori;
 	private String waktuOperasi;
 	private String jabatanResponden;
 	private String kodeOutlet;
 	private String kodeStatus;
 	private String kodeKategori;
+	private Double xcoord;
+	private Double ycoord;
 	
-	public String getKodeKategori() {
-		return kodeKategori;
-	}
-	public void setKodeKategori(String kodeKategori) {
-		this.kodeKategori = kodeKategori;
-	}
 	public String getKode() {
 		return kode;
 	}
@@ -80,6 +77,12 @@ public class KunjunganSurveyor implements Serializable {
 	public void setOmzet(Double omzet) {
 		this.omzet = omzet;
 	}
+	public Double getOmzetKategori() {
+		return omzetKategori;
+	}
+	public void setOmzetKategori(Double omzetKategori) {
+		this.omzetKategori = omzetKategori;
+	}
 	public String getWaktuOperasi() {
 		return waktuOperasi;
 	}
@@ -103,6 +106,24 @@ public class KunjunganSurveyor implements Serializable {
 	}
 	public void setKodeStatus(String kodeStatus) {
 		this.kodeStatus = kodeStatus;
+	}
+	public String getKodeKategori() {
+		return kodeKategori;
+	}
+	public void setKodeKategori(String kodeKategori) {
+		this.kodeKategori = kodeKategori;
+	}
+	public Double getXcoord() {
+		return xcoord;
+	}
+	public void setXcoord(Double xcoord) {
+		this.xcoord = xcoord;
+	}
+	public Double getYcoord() {
+		return ycoord;
+	}
+	public void setYcoord(Double ycoord) {
+		this.ycoord = ycoord;
 	}
 	
 	
