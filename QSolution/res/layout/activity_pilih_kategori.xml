@@ -5,19 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity" >
-
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:stretchColumns="1" >
-
         <TableRow>
-
             <ImageView
                 android:layout_column="0"
                 android:background="@drawable/menu_lines2"
                 android:padding="3dip" />
-
             <ImageView
                 android:layout_column="1"
                 android:layout_gravity="center"
@@ -26,13 +22,11 @@
                 android:src="@drawable/small_qasa_logo" />
         </TableRow>
     </TableLayout>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="5dp" >
-
         <TextView
             android:id="@+id/lblId"
             android:layout_width="fill_parent"

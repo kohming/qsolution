@@ -1,5 +1,8 @@
 package id.qsolution.main;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -99,10 +102,20 @@ public class LocationActivity extends Activity{
 		btnGetLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
 				getLocation();
 			}
 		});
+		
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+
+		   public void run() {
+			   getLocation();
+		      //here you can start your Activity B.
+			  //  Toast.makeText(getApplicationContext(), "3 menit", Toast.LENGTH_LONG).show();
+		   }
+
+		}, 180000);
 
 	}
 

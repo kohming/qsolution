@@ -30,6 +30,15 @@
                     android:layout_height="fill_parent"
                     android:orientation="vertical" >
 
+                    <AutoCompleteTextView
+                        android:id="@+id/txtSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="Search Brand Here" >
+                    </AutoCompleteTextView>
+
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="0dip"
@@ -347,7 +356,7 @@
                                     android:id="@+id/lblLabel"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Label" >
+                                    android:text="Price Tag" >
                                 </TextView>
 
                                 <Spinner
@@ -376,8 +385,10 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:digits="0123456789,"
+                                    android:hint="Harga Produk"
                                     android:inputType="numberDecimal"
-                                    android:maxLength="9" />
+                                    android:maxLength="14" />
                             </TableRow>
 
                             <Button

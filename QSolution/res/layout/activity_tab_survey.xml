@@ -346,7 +346,7 @@
                                             android:id="@+id/lblJenisPelanggan"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="Pelanggan(%)" />
+                                            android:text="Pedagang (%)" />
 
                                         <EditText
                                             android:id="@+id/txtJenisPelanggan"

@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -24,7 +23,6 @@ import id.qsolution.models.TmSurveyor;
 import id.qsolution.models.dao.TmOutletDao;
 import id.qsolution.models.dao.TmSurveyorDao;
 
-@SuppressLint("SimpleDateFormat")
 public class OutletsActivity extends Activity {
 
 	// private EditText txtFind;
@@ -87,7 +85,6 @@ public class OutletsActivity extends Activity {
 				alert.setPositiveButton("Kunjungi",
 						new DialogInterface.OnClickListener() {
 							private Intent intent;
-							@SuppressLint("SimpleDateFormat")
 							public void onClick(DialogInterface dialog, int whichButton) {
 								try {
 									TmOutlet outletSelected = (TmOutlet) adapter.getItem(index);

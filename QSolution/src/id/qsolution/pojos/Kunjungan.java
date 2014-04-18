@@ -132,13 +132,22 @@ public class Kunjungan implements Serializable {
 	
 	@Override
 	public String toString() {
-		return kodeOutlet +" - "+NamaKategori(getKodeKategori());
+		String result = "";
+		try {
+			if(!getKodeKategori().equals("")){
+				result = kodeOutlet +" - "+NamaKategori(getKodeKategori());
+			}
+		} catch (Exception e) {
+			return kodeOutlet;
+		}
+		return result;
 	}
 	private String NamaKategori(String kodeKategori2) {
 		TmKategoriBarang kategori = new TmKategoriBarang();
 		TmKategoriBarangDao kategoriDao = new TmKategoriBarangDao(activity.getApplicationContext());
 		kategori.setKode(kodeKategori2);
 		kategori = kategoriDao.getByExample(kategori);
+
 		return kategori.getNama();
 	}
 }

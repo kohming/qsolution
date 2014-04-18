@@ -2,11 +2,14 @@ package id.qsolution.main;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import id.qsolution.adapter.KatagoriAdapter;
 import id.qsolution.adapter.PhotoAdapter;
@@ -35,6 +38,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -195,7 +200,7 @@ public class TabOutletLamaActivityNew extends TabActivity {
 			kunjungan.setKodeStatus("01");
 			kunjungan.setJabatanResponden(jabatan.getKode());
 			kunjungan.setJamMulai(mulai);
-			kunjungan.setOmzet(getDouble(txtOmzet.getText().toString()));
+			kunjungan.setOmzet(getDouble(txtOmzet.getText().toString().replace(",", "")));
 			kunjungan.setKodeSurveyor(surveyor.getKode());
 			kunjungan.setResponden(txtNamaResponden.getText().toString());
 			kunjungan.setTglSurveySkrg(new SimpleDateFormat("ddMMyyyy").format(new Date()));
@@ -281,6 +286,30 @@ public class TabOutletLamaActivityNew extends TabActivity {
 			lblOmset.setVisibility(View.GONE);
 			txtOmzet.setVisibility(View.GONE);
 		}
+		txtOmzet.addTextChangedListener( new TextWatcher() {
+			
+	        boolean isEdiging;
+	        @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
+	        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+	        @Override public void afterTextChanged(Editable s) {
+	            if(isEdiging) return;
+	            isEdiging = true;
+
+	            String str = s.toString().replaceAll( "[^\\d]", "" );
+	            double s1 = getDouble(str);
+
+	            if((int)s1 > 0){
+	            	 NumberFormat nf2 = NumberFormat.getInstance(Locale.ENGLISH);
+	                 ((DecimalFormat)nf2).applyPattern("###,###.###");
+	                 s.replace(0, s.length(), nf2.format(s1));
+	            }else{
+	            	s.replace(0, s.length(), "");
+	            }
+	          
+	            isEdiging = false;
+	        }
+	    });
 	}
 
 	private String validateDouble(Double yCoord2) {

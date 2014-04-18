@@ -164,10 +164,12 @@ public class UploadDataActivity extends TabActivity{
 		kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
 		listKategori = (ArrayList<TtMKunjunganSurveyor>) kunjunganDao.listAll();
 		List<Kunjungan> visits = new ArrayList<Kunjungan>();
-		
-		for (TtMKunjunganSurveyor ttMKunjunganSurveyor : listKategori) {
-			if(!isUpload(ttMKunjunganSurveyor.getStatus())){
-				visits.add(getVisit(ttMKunjunganSurveyor));
+		/*for (TtMKunjunganSurveyor kunjungan : listKategori) {
+			Toast.makeText(getApplicationContext(), "Kunjungan "+ kunjungan.getKode(), Toast.LENGTH_LONG).show();
+		}*/
+		for (TtMKunjunganSurveyor kunjungan : listKategori) {
+			if(!isUpload(kunjungan.getStatus())){
+				visits.add(getVisit(kunjungan));
 			}
 		}
 		kunjunganAdapter = new ArrayAdapter<Kunjungan>(this, android.R.layout.simple_list_item_multiple_choice , visits);
@@ -178,16 +180,36 @@ public class UploadDataActivity extends TabActivity{
 
 	private Kunjungan getVisit(TtMKunjunganSurveyor value) {
 		Kunjungan result = new Kunjungan(this);
-		result.setName(value.getName());
-		result.setJabatanResponden(value.getJabatanResponden());
-		result.setJamMulai(value.getJamMulai());
-		result.setJamSelesai(value.getJamSelesai());
-		result.setKode(value.getKode());
-		result.setKodeOutlet(value.getKodeOutlet());
-		result.setKodeStatus(value.getStatus());
-		result.setKodeSurveyor(value.getKodeSurveyor());
-		result.setKodeKategori(value.getKodeKategori());
-		result.setOmzet(value.getOmzet());
+		result.setName(getSting(value.getName()));
+		result.setJabatanResponden(getSting(value.getJabatanResponden()));
+		result.setJamMulai(getSting(value.getJamMulai()));
+		result.setJamSelesai(getSting(value.getJamSelesai()));
+		result.setKode(getSting(value.getKode()));
+		result.setKodeOutlet(getSting(value.getKodeOutlet()));
+		result.setKodeStatus(getSting(value.getStatus()));
+		result.setKodeSurveyor(getSting(value.getKodeSurveyor()));
+		result.setKodeKategori(getSting(value.getKodeKategori()));
+		result.setOmzet(getDouble(value.getOmzet()));
+		return result;
+	}
+
+	private Double getDouble(Double omzet) {
+		double result = 0d;
+		try {
+			result = omzet;
+		} catch (Exception e) {
+			return result;
+		}
+		return result;
+	}
+
+	private String getSting(String name) {
+		String result = "";
+		try {
+			result = name;
+		} catch (Exception e) {
+			return result;
+		}
 		return result;
 	}
 

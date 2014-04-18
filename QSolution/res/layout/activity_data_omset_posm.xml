@@ -30,6 +30,13 @@
                     android:layout_height="fill_parent"
                     android:orientation="vertical" >
 
+                    <AutoCompleteTextView
+                        android:id="@+id/txtSearch"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:hint="Search Brand Here" />
+
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="0dip"
@@ -97,11 +104,12 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="wrap_content"
                                                 android:layout_weight="1"
+                                                android:digits="0123456789,"
                                                 android:hint="Omset /minggu"
                                                 android:inputType="numberDecimal"
-                                                android:maxLength="9" />
+                                                android:maxLength="14" />
                                         </TableRow>
-                                        
+
                                         <TableRow
                                             android:id="@+id/tableRow5"
                                             android:layout_width="wrap_content"

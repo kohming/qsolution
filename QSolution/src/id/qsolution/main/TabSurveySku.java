@@ -1,12 +1,16 @@
 package id.qsolution.main;
 
 import java.io.File;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+
 import id.qsolution.adapter.PhotoRakAdapter;
 import id.qsolution.adapter.PosmOutletAdapter;
 import id.qsolution.models.DaftarOutletSurvey;
@@ -57,6 +61,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.telephony.TelephonyManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -71,6 +77,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -173,7 +180,12 @@ public class TabSurveySku extends TabActivity {
 	private String ycoord;
 	private DaftarOutletSurvey kategori;
 	private ArrayList<TmPosm> listPosmTmp;
+	private AutoCompleteTextView txtSearch;
 	private static final int CAMERA_REQUEST = 300;
+	private ArrayAdapter<String> arrayAdapter;
+	private String[] lsBrandRak;
+	private TmKategoriCompanyBrand tkcb;
+	private TmKategoriCompanyBrandDao tkcbDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -186,6 +198,7 @@ public class TabSurveySku extends TabActivity {
 		ktcbDao = new TmKategoriCompanyBrandDao(getApplicationContext());
 		outletPosm = new TtDKunjunganSurveyorOutletPosm();
 		outletPosmDao = new TtDKunjunganSurveyorOutletPosmDao(getApplicationContext());
+		tkcbDao = new TmKategoriCompanyBrandDao(getApplicationContext());
 		surveyor = (TmSurveyor) getIntent().getSerializableExtra("surveyor");
 		outlet = (TmOutlet) getIntent().getSerializableExtra("outlet");
 		rak = (TtDKunjunganSurveyorRak) getIntent().getSerializableExtra("rak");
@@ -222,12 +235,173 @@ public class TabSurveySku extends TabActivity {
 		tabHost.addTab(spec);
 		tabHost.setCurrentTab(0);
 		initView();
+		loadSearch();
 		loadForm();
 		loadKategori();
 		loadPosm();
 		createListener();
 		loadQuestion();
 		viewPhoto();
+	}
+
+	private void loadSearch() {
+		TmBrandDao BrandDao = new TmBrandDao(getApplicationContext());
+		TmSubKategoriBarang subKat = new TmSubKategoriBarang();
+		TmSubKategoriBarangDao subKatDao = new TmSubKategoriBarangDao(
+				getApplicationContext());
+		subKat.setKode_kategori(kategori.getKodeKategori());
+		TmKategoriCompanyBrand kcb = new TmKategoriCompanyBrand();
+		TmKategoriCompanyBrandDao kcbDao = new TmKategoriCompanyBrandDao(
+				getApplicationContext());
+		List<TmBrand> listBrand = new ArrayList<TmBrand>();
+
+		for (TmSubKategoriBarang subKategori : subKatDao.listByExample(subKat)) {
+			kcb = new TmKategoriCompanyBrand();
+			kcb.setKode_sub_kategori(subKategori.getKode());
+			for (TmKategoriCompanyBrand bra : kcbDao.listByExample(kcb)) {
+				TmBrand brand = new TmBrand();
+				brand.setKode(bra.getKode_brand());
+				brand = BrandDao.getByExample(brand);
+				listBrand.add(brand);
+			}
+		}
+		String[] brand = new String[listBrand.size()];
+		for (int i = 0; i < listBrand.size(); i++) {
+			brand[i] = listBrand.get(i).getNama();
+		}
+		arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, brand);
+		txtSearch.setThreshold(3);
+		txtSearch.setAdapter(arrayAdapter);
+		txtSearch.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long rowId) {
+				//Toast.makeText(getApplicationContext(), "Selected Item "+arrayAdapter.getItem(position), Toast.LENGTH_LONG).show();
+				String selection = (String) parent.getItemAtPosition(position);
+				TmCompany perusahaan = new TmCompany();
+				TmBrand brand = new TmBrand();
+				brandRakDao = new TmBrandDao(getApplicationContext());
+				brand.setNama(selection);
+				brand = brandRakDao.getByExample(brand);
+				perusahaan.setKode(brand.getKodeCompany());
+				companyDao = new TmCompanyDao(getApplicationContext());
+				perusahaan = companyDao.getByExample(perusahaan);
+				setSpinner(brand, perusahaan);
+			}
+
+			private void setSpinner(TmBrand brand, TmCompany perusahaan) {
+				brandRak = new TmBrand();
+				brandRak.setKodeCompany(perusahaan.getKode());
+				listRakBrand.clear();
+				listRakBrand = (ArrayList<TmBrand>) brandRakDao
+						.listByExample(brandRak);
+				lsBrandRak = new String[listRakBrand.size()];
+				for (int i = 0; i < listRakBrand.size(); i++) {
+					lsBrandRak[i] = listRakBrand.get(i).getNama();
+					
+				}
+				ArrayAdapter<String> adapterBrandRak = new ArrayAdapter<String>(
+						TabSurveySku.this,
+						android.R.layout.simple_spinner_item, lsBrandRak);
+				adapterBrandRak
+						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spnBrand.setAdapter(adapterBrandRak);
+				spnBrand.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+					@Override
+					public void onItemSelected(AdapterView<?> arg0, View arg1, int index, long arg3) {
+						brandRak = new TmBrand();
+						brandRak = listRakBrand.get(index);
+						txtBrand.setText(brandRak.getNama());
+						txtProduk.setText("");
+					}
+
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+					}
+				});
+				
+				// Load Company
+				listCompany.clear();
+				company = new TmCompany();
+				company.setKode(perusahaan.getKode());
+				listCompany = (ArrayList<TmCompany>) companyDao
+						.listByExample(company);
+				lsCompany = new String[listCompany.size()];
+
+				for (int i = 0; i < listCompany.size(); i++) {
+					lsCompany[i] = listCompany.get(i).getNama();
+					Toast.makeText(getApplicationContext(), "Company "+ listCompany.get(i).getNama(), Toast.LENGTH_LONG).show();
+				}
+
+				if (listCompany.size() > 0) {
+					spnBrand.setVisibility(View.VISIBLE);
+					lblBrandSku.setVisibility(View.VISIBLE);
+					spnCompany.setVisibility(View.VISIBLE);
+					lblCompanySku.setVisibility(View.VISIBLE);
+				} else {
+					spnBrand.setVisibility(View.GONE);
+					lblBrandSku.setVisibility(View.GONE);
+					spnCompany.setVisibility(View.GONE);
+					lblCompanySku.setVisibility(View.GONE);
+				}
+
+				ArrayAdapter<String> adapterCompany = new ArrayAdapter<String>(
+						TabSurveySku.this,
+						android.R.layout.simple_spinner_item, lsCompany);
+				adapterCompany
+						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spnCompany.setAdapter(adapterCompany);
+				spnCompany
+						.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+							@Override
+							public void onItemSelected(AdapterView<?> arg0,
+									View arg1, int index, long arg3) {
+								company = new TmCompany();
+								company = listCompany.get(index);
+							}
+
+							@Override
+							public void onNothingSelected(AdapterView<?> arg0) {
+							}
+						});
+				
+				tkcb = new TmKategoriCompanyBrand();
+				tkcb.setKode_company(perusahaan.getKode());
+				tkcb.setKode_brand(brand.getKode());
+				tkcb = tkcbDao.listByExample(tkcb).get(0);
+				listSubKategoriBarang.clear();
+				subKategori = new TmSubKategoriBarang();
+				subKategori.setKode(tkcb.getKode_sub_kategori());
+				listSubKategoriBarang = subKategoriDao.listByExample(subKategori);
+				lsSubKategoriBarang = new String[listSubKategoriBarang.size()];
+				for (int i = 0; i < listSubKategoriBarang.size(); i++) {
+					lsSubKategoriBarang[i] = listSubKategoriBarang.get(i)
+							.getNama();
+				}
+				ArrayAdapter<String> adapterSubKategori = new ArrayAdapter<String>(
+						TabSurveySku.this,
+						android.R.layout.simple_spinner_item,
+						lsSubKategoriBarang);
+				adapterSubKategori
+						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				spnSubKatagori.setAdapter(adapterSubKategori);
+				spnSubKatagori
+						.setOnItemSelectedListener(new OnItemSelectedListener() {
+							@Override
+							public void onItemSelected(AdapterView<?> arg0,
+									View arg1, int index, long arg3) {
+								subKategori = new TmSubKategoriBarang();
+								subKategori = listSubKategoriBarang.get(index);
+							}
+
+							@Override
+							public void onNothingSelected(AdapterView<?> arg0) {
+							}
+						});
+			}
+		});
+		
 	}
 
 	private void viewPhoto() {
@@ -385,7 +559,7 @@ public class TabSurveySku extends TabActivity {
 					rakSku.setKodeKunjungan(outlet.getKode() +kategori.getKodeKategori()+ new SimpleDateFormat("ddMMyy").format(new Date()));
 					rakSku.setJumlahUnit(Integer.valueOf(txtJumlahUnit.getText().toString()));
 					rakSku.setJumlahFacing(Integer.valueOf(txtJumlahFacing.getText().toString()));
-					rakSku.setHargaJual(Integer.valueOf(txtHarga.getText().toString()));
+					rakSku.setHargaJual(Integer.valueOf(txtHarga.getText().toString().replace(",", "")));
 					if(outlet.getKode().substring(0, 2).equals("MT")){
 						if(spnQuestion.getSelectedItemPosition() == 0){
 							rakSku.setLblPrice(true);
@@ -1017,6 +1191,7 @@ private List<TmCompany> getListCompany(TmSubKategoriBarang subKategori) {
 	}
 
 	private void initView() {
+		txtSearch = (AutoCompleteTextView)findViewById(R.id.txtSearch);
 		lblLabel = (TextView) findViewById(R.id.lblLabel);
 		viewPhoto = (ListView) findViewById(R.id.lsFoto);
 		txtBrand = (TextView) findViewById(R.id.txtBrand);
@@ -1053,6 +1228,16 @@ private List<TmCompany> getListCompany(TmSubKategoriBarang subKategori) {
 
 	}
 
+	private Double getDouble(String string) {
+		double result = 0d;
+		try {
+			result = Double.valueOf(string);
+		} catch (Exception e) {
+			return result = 0d;
+		}
+		return result;
+	}
+	
 	private void loadForm() {
 		skb = new TmKategoriCompanyBrand();
 		lis = new ArrayList<TmKategoriCompanyBrand>();
@@ -1063,6 +1248,30 @@ private List<TmCompany> getListCompany(TmSubKategoriBarang subKategori) {
 			lblLabel.setVisibility(View.GONE);
 			spnQuestion.setVisibility(View.GONE);
 		}
+		txtHarga.addTextChangedListener( new TextWatcher() {
+			
+	        boolean isEdiging;
+	        @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
+	        @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+	        @Override public void afterTextChanged(Editable s) {
+	            if(isEdiging) return;
+	            isEdiging = true;
+
+	            String str = s.toString().replaceAll( "[^\\d]", "" );
+	            double s1 = getDouble(str);
+
+	            if((int)s1 > 0){
+	            	 NumberFormat nf2 = NumberFormat.getInstance(Locale.ENGLISH);
+	                 ((DecimalFormat)nf2).applyPattern("###,###.###");
+	                 s.replace(0, s.length(), nf2.format(s1));
+	            }else{
+	            	s.replace(0, s.length(), "");
+	            }
+	          
+	            isEdiging = false;
+	        }
+	    });
 	}
 
 

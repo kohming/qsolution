@@ -85,7 +85,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:capitalize="characters"
-                                        android:hint="Responden"
+                                        android:hint="Pemberi ijin"
                                         android:inputType="textCapCharacters"
                                         android:maxLength="30"
                                         android:singleLine="true"
@@ -133,7 +133,8 @@
                                         android:layout_weight="1"
                                         android:hint="Omset Outlet Perminggu"
                                         android:inputType="numberDecimal"
-                                        android:maxLength="9" />
+                                        android:digits="0123456789," 
+                                        android:maxLength="14" />
                                 </TableRow>
                             </TableLayout>
 

@@ -204,8 +204,6 @@ public class TabOutletLamaActivity extends TabActivity {
 			txtLon.setText(ycoord);
 			txtLat.setText(xcoord);
 			break;
-		
-			
 		case 200:
 			Bitmap img = (Bitmap) data.getExtras().get("data");
 			Uri selectedImageUri = data.getData();

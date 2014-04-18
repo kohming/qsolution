@@ -26,7 +26,6 @@ import id.qsolution.models.dao.TmOutletDao;
 import id.qsolution.models.dao.TmRakDao;
 import id.qsolution.models.dao.TtDKunjunganSurveyorRakDao;
 import id.qsolution.models.dao.TtMKunjunganSurveyorDao;
-import android.annotation.SuppressLint;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -51,7 +50,7 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@SuppressLint("SimpleDateFormat")
+
 public class ActivityCreateRak extends TabActivity {
 
 	private TmOutlet outlet;

@@ -16,7 +16,6 @@ import id.qsolution.models.dao.TmStatusKunjunganDao;
 import id.qsolution.models.dao.TtDKunjunganSurveyorPhotoDao;
 import id.qsolution.models.dao.TtMKunjunganSurveyorDao;
 import id.qsolution.util.NamaFile;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.TabActivity;
 import android.content.DialogInterface;
@@ -41,7 +40,6 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -50,7 +48,7 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.Toast;
 
-@SuppressLint("SimpleDateFormat")
+
 public class ReasonActivity extends TabActivity {
 	
 	private TmSurveyor surveyor;
@@ -115,8 +113,22 @@ public class ReasonActivity extends TabActivity {
 	}
 	
 	private void loadForm() {
-		txtLat.setText(xcoord);
-		txtLon.setText(ycoord);
+		txtLat.setText(getCoor(xcoord));
+		txtLon.setText(getCoor(ycoord));
+	}
+
+	private String getCoor(String value) {
+		String result = "0";
+		try {
+			if(value.equals("")){
+				return result;
+			}else{
+				result = value;
+			}
+		} catch (Exception e) {
+			return result;
+		}
+		return result;
 	}
 
 	@Override
@@ -291,7 +303,8 @@ public class ReasonActivity extends TabActivity {
 										photo.setNamaFile(fileName);
 										photo.setKodeOutlet(outlet.getKode());
 										photoDao.insert(photo);
-										/*if(photoDao.listByExample(photo).size() > 0){
+										
+										if(photoDao.listByExample(photo).size() > 0){
 											photo.setDeskripsi(input.getText().toString());
 											photo.setNamaFile(fileName);
 											photo.setKodeOutlet(outlet.getKode());
@@ -301,7 +314,7 @@ public class ReasonActivity extends TabActivity {
 											photo.setNamaFile(fileName);
 											photo.setKodeOutlet(outlet.getKode());
 											photoDao.insert(photo);
-										}*/
+										}
 										viewPhoto();
 										//Toast.makeText(getApplicationContext(), path, Toast.LENGTH_LONG).show();
 									} catch (Exception e) {
@@ -417,20 +430,32 @@ public class ReasonActivity extends TabActivity {
 		lsData.setAdapter(statusKunjunganAdapter);
 		lsData.setItemsCanFocus(false);
 		lsData.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-		lsData.setOnItemSelectedListener(new OnItemSelectedListener() {
+		lsData.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
+			public void onItemClick(AdapterView<?> arg0, View arg1, int index,
+					long arg3) {
+				statusKunjungan = new TmStatusKunjungan();
+				statusKunjungan = listKunjungan.get(index);
+				//Toast.makeText(getApplicationContext(), "Status Kunjungan "+statusKunjungan.getNama(), Toast.LENGTH_LONG).show();
+			}
+		});
+		/*lsData.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg,
 					int index, long arg3) {
 				statusKunjungan = new TmStatusKunjungan();
 				statusKunjungan = listKunjungan.get(index);
+				 String selectedFromList = (String) (lsData.getItemAtPosition(index));
+				Toast.makeText(getApplicationContext(), "Status Kunjungan "+selectedFromList, Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				
 			}
-		});
+		});*/
 		
 	}
 
