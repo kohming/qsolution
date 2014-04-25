@@ -1,12 +1,16 @@
 package id.qsolution.main;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 import id.qsolution.adapter.OutletsAdapter;
 import id.qsolution.models.TmOutlet;
 import id.qsolution.models.TmSurveyor;
+import id.qsolution.models.TtMKunjunganSurveyor;
 import id.qsolution.models.dao.TmOutletDao;
+import id.qsolution.models.dao.TtMKunjunganSurveyorDao;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -19,6 +23,8 @@ public class SurveyedOutletActivity extends Activity {
 	private List<TmOutlet> outlets = new ArrayList<TmOutlet>();
 	private OutletsAdapter adapter;
 	private TmOutlet outlet;
+	private TtMKunjunganSurveyor kunjungan;
+	private TtMKunjunganSurveyorDao kunjunganDao;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +36,9 @@ public class SurveyedOutletActivity extends Activity {
 		initView();
 		outlet = new TmOutlet();
 		outletDao = new TmOutletDao(getApplicationContext());
+		kunjungan = new TtMKunjunganSurveyor();
+		kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
+		
 	}
 	
 	@Override
@@ -56,11 +65,39 @@ public class SurveyedOutletActivity extends Activity {
 	*/
 	private void loadOutlet() {
 		
-		for(TmOutlet o : outletDao.listAll()){
+		ArrayList<String> lst = new ArrayList<String>();
+	    /*lst.add("ABC");
+	    lst.add("ABC");
+	    lst.add("ABCD");
+	    lst.add("ABCD");
+	    lst.add("ABCE");*/
+
+	   // System.out.println("Duplicates List "+lst);
+
+	    /**/
+		
+		for (TtMKunjunganSurveyor kunungan : kunjunganDao.listAll()) {
+			lst.add(kunungan.getKodeOutlet());
+		}
+		
+		Object[] st = lst.toArray();
+	      for (Object s : st) {
+	        if (lst.indexOf(s) != lst.lastIndexOf(s)) {
+	            lst.remove(lst.lastIndexOf(s));
+	         }
+	      }
+		for (String s : lst) {
+			outlet = new TmOutlet();
+			outlet.setKode(s);
+			outlet = outletDao.getByExample(outlet);
+			outlets.add(outlet);
+		}
+		
+		/*for(TmOutlet o : outletDao.listAll()){
 			if(!isNull(o.getStatus())){
 				outlets.add(o);
 			}
-		}
+		}*/
 		//outlets = outletDao.listByExample(outlet);
 		adapter = new OutletsAdapter(this, outlets);
 		lsOutlet.setAdapter(adapter);

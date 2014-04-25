@@ -26,7 +26,7 @@
             android:name="id.qsolution.main.TabSurveySku"
             android:screenOrientation="portrait" />
         
-        <activity android:name="id.qsolution.main.TabSurveyOutlet" />
+        <activity android:name="id.qsolution.main.TabSurveyOutlet" android:theme="@style/Theme.Light.NoTitleBar.Workaround"/>
         <activity android:name="id.qsolution.main.ActivityPilihKategori" />
         <activity android:name="id.qsolution.main.TabOutletLamaActivityNew" />
         <activity android:name="id.qsolution.main.ActivityCreateRak" />

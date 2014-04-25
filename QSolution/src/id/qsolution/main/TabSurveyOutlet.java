@@ -35,6 +35,7 @@ import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -688,6 +689,7 @@ public class TabSurveyOutlet extends TabActivity {
 
 	private void initView() {
 		txtSearch = (AutoCompleteTextView) findViewById(R.id.txtSearch);
+		txtSearch.setTextColor(Color.BLACK);
 		lblId = (TextView) findViewById(R.id.lblId);
 		lblName = (TextView) findViewById(R.id.lblName);
 		txtOmzet = (EditText) findViewById(R.id.txtOmzet);

@@ -37,6 +37,7 @@ public class LocationActivity extends Activity{
 	private String xcoord;
 	private String ycoord;
 	private int idx;
+	private int counter = 0;
 //	private int position;
 
 	@Override
@@ -99,23 +100,57 @@ public class LocationActivity extends Activity{
 			}
 		});
 
-		btnGetLocation.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				getLocation();
-			}
-		});
-		
 		Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
-
-		   public void run() {
-			   getLocation();
+		public void run() {
+			   counter += 1;
+			  // getLocation();
 		      //here you can start your Activity B.
 			  //  Toast.makeText(getApplicationContext(), "3 menit", Toast.LENGTH_LONG).show();
 		   }
 
 		}, 180000);
+		
+		btnGetLocation.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(counter >= 180000 ){
+					AlertDialog confirm = new AlertDialog.Builder(LocationActivity.this).create();
+					confirm.setTitle("Peringatan");
+					confirm.setMessage("Dikarenakan data posisi tidak dapatkan, silahkan lanjut ke step berikutnya");
+					confirm.setButton("Ya", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							Intent intent = new Intent();
+							if (!checkLockLocation.isChecked()) {
+								locationManager.removeUpdates(myLocationListener);
+								locked = false;
+							} else {
+								locked = true;
+							}
+							intent.putExtra("locked", locked);
+							intent.putExtra("xcoord", xcoord);
+							intent.putExtra("ycoord", ycoord);
+							setResult(100, intent);
+							turnGPSOff();
+							finish();
+						}
+					});
+					confirm.setButton2("Tidak", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					confirm.show();
+				} else{
+					 Toast.makeText(getApplicationContext(), "Selesaikan pencarian lokasi terlebih dahulu", Toast.LENGTH_LONG).show();
+				}
+			}
+		});
 
 	}
 
@@ -243,6 +278,11 @@ public class LocationActivity extends Activity{
 
 	@Override
 	public void onBackPressed() {
-		getLocation();
+		if(counter >= 180000 ){
+			getLocation();
+		}else{
+			Toast.makeText(getApplicationContext(), "Selesaikan pencarian lokasi terlebih dahulu", Toast.LENGTH_LONG).show();
+		}
+		
 	}
 }

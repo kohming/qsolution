@@ -138,7 +138,7 @@ public class TabSurveyOutletActivity extends TabActivity {
 	private EditText txtAlamatOlt;
 	private EditText txtRt;
 	private EditText txtRw;
-	private EditText txtKodePos;
+	//private EditText txtKodePos;
 	private TmSurveyor surveyor;
 	private TmOutletDao outletDao;
 	private TmWaktuOperasiDao waktuOperasiDao;
@@ -229,7 +229,7 @@ public class TabSurveyOutletActivity extends TabActivity {
 					outlet.setAlamat(txtAlamatOlt.getText().toString());
 					outlet.setRt(txtRt.getText().toString());
 					outlet.setRw(txtRw.getText().toString());
-					outlet.setKodePos(txtKodePos.getText().toString());
+					//outlet.setKodePos(txtKodePos.getText().toString());
 					if(statusOutlet.equals("MT")){	
 						outlet.setPelanggan(isNullNumber(txtLuasBangunan.getText().toString()));
 						outlet.setKodeJamOperasi(isNull(listWaktuOperasi.get(spnWaktuOperasi.getSelectedItemPosition()).getKode()));
@@ -339,10 +339,10 @@ public class TabSurveyOutletActivity extends TabActivity {
 		}
 		
 		
-		if(isNullOrEmpty(txtKodePos)){
+		/*if(isNullOrEmpty(txtKodePos)){
 			Toast.makeText(getApplicationContext(), "Kodepos belum diisi", Toast.LENGTH_LONG).show();
 			return false;
-		}
+		}*/
 		if(isNullOrEmpty(txtRt)){
 			Toast.makeText(getApplicationContext(), "RT belum diisi", Toast.LENGTH_LONG).show();
 			return false;
@@ -361,10 +361,10 @@ public class TabSurveyOutletActivity extends TabActivity {
 			Toast.makeText(getApplicationContext(), "Koordinat harus diisi", Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if(isMax5(txtKodePos)){
+		/*if(isMax5(txtKodePos)){
 			Toast.makeText(getApplicationContext(), "Kodepos harus 5 digit angka", Toast.LENGTH_LONG).show();
 			return false;
-		}
+		}*/
 		if(listPhoto.size() <= 0){
 			Toast.makeText(getApplicationContext(), "Photo masih kosong", Toast.LENGTH_LONG).show();
 			return false;
@@ -394,7 +394,7 @@ public class TabSurveyOutletActivity extends TabActivity {
 		txtAlamatOlt.setText(outlet.getAlamat());
 		txtRt.setText(outlet.getRt());
 		txtRw.setText(outlet.getRw());
-		txtKodePos.setText(outlet.getKodePos());
+		//txtKodePos.setText(outlet.getKodePos());
 		txtLat.setText(xcoord);
 		txtLon.setText(ycoord);
 		loadKabupaten();
@@ -760,7 +760,7 @@ public class TabSurveyOutletActivity extends TabActivity {
 		txtAlamatOlt = (EditText) findViewById(R.id.txtAlamatOlt);
 		txtRt = (EditText) findViewById(R.id.txtRt);
 		txtRw = (EditText) findViewById(R.id.txtRw);
-		txtKodePos = (EditText) findViewById(R.id.txtKodePos);
+		//txtKodePos = (EditText) findViewById(R.id.txtKodePos);
 		spnKelurahan = (Spinner) findViewById(R.id.spnKelurahan);
 		txtJenisPelanggan = (EditText) findViewById(R.id.txtJenisPelanggan);
 		txtJumlahCoc = (EditText) findViewById(R.id.txtJumlahCoc);
