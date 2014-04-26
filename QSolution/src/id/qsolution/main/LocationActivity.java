@@ -1,7 +1,5 @@
 package id.qsolution.main;
 
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +11,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,7 +37,12 @@ public class LocationActivity extends Activity{
 	private String xcoord;
 	private String ycoord;
 	private int idx;
-	private int counter = 0;
+	private Handler customHandler = new Handler();
+	private long startTime = 0L;
+	long timeInMilliseconds = 0L;
+	long timeSwapBuff = 0L;
+	long updatedTime = 0L;
+	private int mins;
 //	private int position;
 
 	@Override
@@ -100,21 +105,16 @@ public class LocationActivity extends Activity{
 			}
 		});
 
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
-		public void run() {
-			   counter += 1;
-			  // getLocation();
-		      //here you can start your Activity B.
-			  //  Toast.makeText(getApplicationContext(), "3 menit", Toast.LENGTH_LONG).show();
-		   }
-
-		}, 180000);
+		startTime = SystemClock.uptimeMillis();
+		customHandler.postDelayed(updateTimerThread, 0);
 		
 		btnGetLocation.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(counter >= 180000 ){
+
+				if(mins < 3 ){
+					Toast.makeText(getApplicationContext(), "Selesaikan pencarian lokasi terlebih dahulu ", Toast.LENGTH_LONG).show();
+				} else{
 					AlertDialog confirm = new AlertDialog.Builder(LocationActivity.this).create();
 					confirm.setTitle("Peringatan");
 					confirm.setMessage("Dikarenakan data posisi tidak dapatkan, silahkan lanjut ke step berikutnya");
@@ -146,13 +146,31 @@ public class LocationActivity extends Activity{
 						}
 					});
 					confirm.show();
-				} else{
-					 Toast.makeText(getApplicationContext(), "Selesaikan pencarian lokasi terlebih dahulu", Toast.LENGTH_LONG).show();
 				}
 			}
 		});
-
 	}
+	
+	private Runnable updateTimerThread = new Runnable() {
+		 
+        
+
+		public void run() {
+ 
+            timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+            updatedTime = timeSwapBuff + timeInMilliseconds;
+ 
+            int secs = (int) (updatedTime / 1000);
+            mins = secs / 60;
+            secs = secs % 60;
+            int milliseconds = (int) (updatedTime % 1000);
+           /* timerValue.setText("" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));*/
+            customHandler.postDelayed(this, 0);
+        }
+ 
+    };
 
 	protected void getLocation() {
 		if (txtLon.getText().toString().equals("0") && txtLat.getText().toString().equals("0")){
@@ -278,10 +296,10 @@ public class LocationActivity extends Activity{
 
 	@Override
 	public void onBackPressed() {
-		if(counter >= 180000 ){
-			getLocation();
+		if(mins < 3 ){
+			Toast.makeText(getApplicationContext(), "Selesaikan pencarian lokasi terlebih dahulu ", Toast.LENGTH_LONG).show();
 		}else{
-			Toast.makeText(getApplicationContext(), "Selesaikan pencarian lokasi terlebih dahulu", Toast.LENGTH_LONG).show();
+			getLocation();
 		}
 		
 	}
