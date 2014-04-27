@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
 import id.qsolution.adapter.PosmOutletAdapter;
 import id.qsolution.models.DaftarOutletSurvey;
 import id.qsolution.models.TmBrand;
@@ -34,7 +33,6 @@ import id.qsolution.models.dao.TtDKunjunganSurveyorOutletPosmDao;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -119,6 +117,7 @@ public class TabSurveyOutlet extends TabActivity {
 		super.onCreate(savedInstanceState);
 		Log.d("Activity ", this.getClass().getName());
 		setTitle("Data Omset dan POSM");
+		setTheme(android.R.style.Theme);
 		setContentView(R.layout.activity_data_omset_posm);
 		surveyor = (TmSurveyor) getIntent().getSerializableExtra("surveyor");
 		kategori = (DaftarOutletSurvey) getIntent().getSerializableExtra("kategori");
@@ -206,7 +205,7 @@ public class TabSurveyOutlet extends TabActivity {
 			brand[i] = listBrand.get(i).getNama();
 		}
 		arrayAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_dropdown_item_1line, brand);
+				android.R.layout.select_dialog_item , brand);
 		txtSearch.setThreshold(3);
 		txtSearch.setAdapter(arrayAdapter);
 		txtSearch.setOnItemClickListener(new OnItemClickListener() {

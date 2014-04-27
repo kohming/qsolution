@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="#FFFFFF"
         android:orientation="vertical" >
 
         <TabWidget
@@ -72,6 +73,7 @@
                                             android:id="@+id/lblKatagori"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
+                                            android:textColor="#000000"
                                             android:text="Katagori" >
                                         </TextView>
 
@@ -93,6 +95,7 @@
                                             android:id="@+id/lblSubkatagori"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
+                                            android:textColor="#000000"
                                             android:text="Sub Katagori" >
                                         </TextView>
 
@@ -114,6 +117,7 @@
                                             android:id="@+id/lblCompanySku"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
+                                            android:textColor="#000000"
                                             android:text="Company" >
                                         </TextView>
 
@@ -135,6 +139,7 @@
                                             android:id="@+id/lblBrandSku"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
+                                            android:textColor="#000000"
                                             android:text="Brand" >
                                         </TextView>
 
@@ -156,6 +161,7 @@
                                             android:id="@+id/lblBranded"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
+                                            android:textColor="#000000"
                                             android:text="Posm Rak(Jika ada)" >
                                         </TextView>
 
@@ -177,6 +183,7 @@
                                             android:id="@+id/lblBranded"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
+                                            android:textColor="#000000"
                                             android:text="Jumlah" >
                                         </TextView>
 

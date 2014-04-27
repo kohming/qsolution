@@ -130,8 +130,8 @@ public class LocationActivity extends Activity{
 								locked = true;
 							}
 							intent.putExtra("locked", locked);
-							intent.putExtra("xcoord", xcoord);
-							intent.putExtra("ycoord", ycoord);
+							intent.putExtra("xcoord", txtLat.getText().toString());
+							intent.putExtra("ycoord", txtLon.getText().toString());
 							setResult(100, intent);
 							turnGPSOff();
 							finish();
@@ -189,8 +189,8 @@ public class LocationActivity extends Activity{
 						locked = true;
 					}
 					intent.putExtra("locked", locked);
-					intent.putExtra("xcoord", xcoord);
-					intent.putExtra("ycoord", ycoord);
+					intent.putExtra("xcoord", txtLat.getText().toString());
+					intent.putExtra("ycoord", txtLon.getText().toString());
 					setResult(100, intent);
 					finish();
 				}

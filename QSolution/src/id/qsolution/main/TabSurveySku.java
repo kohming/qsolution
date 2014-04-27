@@ -191,6 +191,7 @@ public class TabSurveySku extends TabActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle("SURVEY RAK");
+		setTheme(android.R.style.Theme);
 		setContentView(R.layout.activity_tab_audit_sku);
 		//jamMulai = new SimpleDateFormat("HH:mm:ss").format(new Date());
 		Log.d("Activity ", this.getClass().getName());
@@ -269,7 +270,7 @@ public class TabSurveySku extends TabActivity {
 		for (int i = 0; i < listBrand.size(); i++) {
 			brand[i] = listBrand.get(i).getNama();
 		}
-		arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, brand);
+		arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.select_dialog_item, brand);
 		txtSearch.setThreshold(3);
 		txtSearch.setAdapter(arrayAdapter);
 		txtSearch.setOnItemClickListener(new OnItemClickListener() {
