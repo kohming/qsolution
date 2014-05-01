@@ -58,6 +58,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.telephony.TelephonyManager;
@@ -290,13 +291,14 @@ public class TabSurveySku extends TabActivity {
 			}
 
 			private void setSpinner(TmBrand brand, TmCompany perusahaan) {
-				brandRak = new TmBrand();
-				brandRak.setKodeCompany(perusahaan.getKode());
+				int position = 0;
 				listRakBrand.clear();
-				listRakBrand = (ArrayList<TmBrand>) brandRakDao
-						.listByExample(brandRak);
+				listRakBrand = (ArrayList<TmBrand>) brandRakDao.listByExample(brand);
 				lsBrandRak = new String[listRakBrand.size()];
 				for (int i = 0; i < listRakBrand.size(); i++) {
+					if(listRakBrand.get(i).getNama().equals(brand.getNama())){
+						position = i;
+					}
 					lsBrandRak[i] = listRakBrand.get(i).getNama();
 					
 				}
@@ -306,6 +308,7 @@ public class TabSurveySku extends TabActivity {
 				adapterBrandRak
 						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				spnBrand.setAdapter(adapterBrandRak);
+				spnBrand.setSelection(position);
 				spnBrand.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 					@Override
@@ -324,9 +327,8 @@ public class TabSurveySku extends TabActivity {
 				// Load Company
 				listCompany.clear();
 				company = new TmCompany();
-				company.setKode(perusahaan.getKode());
 				listCompany = (ArrayList<TmCompany>) companyDao
-						.listByExample(company);
+						.listByExample(perusahaan);
 				lsCompany = new String[listCompany.size()];
 
 				for (int i = 0; i < listCompany.size(); i++) {
@@ -616,12 +618,19 @@ public class TabSurveySku extends TabActivity {
 
 		btnPhoto.setOnClickListener(new OnClickListener() {
 
+			private File output ;
+
 			@Override
 			public void onClick(View v) {
 				try {
-					Intent cameraIntent = new Intent(
+					Intent i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					File dir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+					output =new File(dir, surveyor.getKode()+"_"+kunjungan.getKode()+new SimpleDateFormat("MMddyyyy HH:mm:ss").format(new Date())+".jpeg");
+					i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
+					startActivityForResult(i, CAMERA_REQUEST);
+					/*Intent cameraIntent = new Intent(
 							android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-					startActivityForResult(cameraIntent, CAMERA_REQUEST);
+					startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
 
 				} catch (Exception e) {
 					Log.i(this.getClass().getName(), e.getMessage());
@@ -791,7 +800,7 @@ public class TabSurveySku extends TabActivity {
 
 			break;
 
-		case 300:
+		case CAMERA_REQUEST:
 			try {
 				if(data != null){
 					Bitmap img = (Bitmap) data.getExtras().get("data");

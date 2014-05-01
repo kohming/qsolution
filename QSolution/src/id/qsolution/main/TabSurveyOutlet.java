@@ -219,115 +219,117 @@ public class TabSurveyOutlet extends TabActivity {
 				brand = brandRakDao.getByExample(brand);
 				perusahaan.setKode(brand.getKodeCompany());
 				companyDao = new TmCompanyDao(getApplicationContext());
-				perusahaan = companyDao.getByExample(perusahaan);
+				perusahaan = companyDao.getByExample(perusahaan);	
 				setSpinner(brand, perusahaan);
 			}
+		});
+	}
+	
+	private void setSpinner(TmBrand brand, TmCompany perusahaan) {
+		int position = 0;
+		// Load Company
+		listCompany.clear();
+		company.setKode(perusahaan.getKode());
+		listCompany = (ArrayList<TmCompany>) companyDao.listByExample(perusahaan);
+		lsCompany = new String[listCompany.size()];
 
-			private void setSpinner(TmBrand brand, TmCompany perusahaan) {
-				brandRak = new TmBrand();
-				brandRak.setKodeCompany(perusahaan.getKode());
-				listRakBrand = (ArrayList<TmBrand>) brandRakDao
-						.listByExample(brandRak);
-				lsBrandRak = new String[listRakBrand.size()];
-				for (int i = 0; i < listRakBrand.size(); i++) {
-					lsBrandRak[i] = listRakBrand.get(i).getNama();
-				}
-				ArrayAdapter<String> adapterBrandRak = new ArrayAdapter<String>(
-						TabSurveyOutlet.this,
-						android.R.layout.simple_spinner_item, lsBrandRak);
-				adapterBrandRak
-						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spnBrand.setAdapter(adapterBrandRak);
-				spnBrand.setOnItemSelectedListener(new OnItemSelectedListener() {
+		for (int i = 0; i < listCompany.size(); i++) {
+			lsCompany[i] = listCompany.get(i).getNama();
+		}
+		
+		if (listCompany.size() > 0) {
+			spnBrand.setVisibility(View.VISIBLE);
+			lblBrandSku.setVisibility(View.VISIBLE);
+			spnCompany.setVisibility(View.VISIBLE);
+			lblCompanySku.setVisibility(View.VISIBLE);
+		} else {
+			spnBrand.setVisibility(View.GONE);
+			lblBrandSku.setVisibility(View.GONE);
+			spnCompany.setVisibility(View.GONE);
+			lblCompanySku.setVisibility(View.GONE);
+		}
+
+		ArrayAdapter<String> adapterCompany = new ArrayAdapter<String>(TabSurveyOutlet.this,
+				android.R.layout.simple_spinner_item, lsCompany);
+		adapterCompany.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spnCompany.setAdapter(adapterCompany);
+		spnCompany.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 					@Override
-					public void onItemSelected(AdapterView<?> arg0, View arg1, int index, long arg3) {
-						brandRak = new TmBrand();
-						brandRak = listRakBrand.get(index);
+					public void onItemSelected(AdapterView<?> arg0,
+							View arg1, int index, long arg3) {
+						company = new TmCompany();
+						company = listCompany.get(index);
 					}
 
 					@Override
 					public void onNothingSelected(AdapterView<?> arg0) {
 					}
-				});
-				
-				// Load Company
-				listCompany.clear();
-				company.setKode(perusahaan.getKode());
-				listCompany = (ArrayList<TmCompany>) companyDao
-						.listByExample(company);
-				lsCompany = new String[listCompany.size()];
+		});
+		
+		tkcb = new TmKategoriCompanyBrand();
+		tkcb.setKode_company(perusahaan.getKode());
+		tkcb.setKode_brand(brand.getKode());
+		tkcb = tkcbDao.listByExample(tkcb).get(0);
+		listSubKategoriBarang.clear();
+		subKategori = new TmSubKategoriBarang();
+		subKategori.setKode(tkcb.getKode_sub_kategori());
+		listSubKategoriBarang = subKategoriDao.listByExample(subKategori);
+		lsSubKategoriBarang = new String[listSubKategoriBarang.size()];
+		for (int i = 0; i < listSubKategoriBarang.size(); i++) {
+			lsSubKategoriBarang[i] = listSubKategoriBarang.get(i)
+					.getNama();
+		}
 
-				for (int i = 0; i < listCompany.size(); i++) {
-					lsCompany[i] = listCompany.get(i).getNama();
-				}
+		ArrayAdapter<String> adapterSubKategori = new ArrayAdapter<String>(
+				TabSurveyOutlet.this,
+				android.R.layout.simple_spinner_item,
+				lsSubKategoriBarang);
+		adapterSubKategori
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spnSubKatagori.setAdapter(adapterSubKategori);
+		spnSubKatagori
+				.setOnItemSelectedListener(new OnItemSelectedListener() {
+					@Override
+					public void onItemSelected(AdapterView<?> arg0,
+							View arg1, int index, long arg3) {
+						subKategori = new TmSubKategoriBarang();
+						subKategori = listSubKategoriBarang.get(index);
+					}
 
-				if (listCompany.size() <= 0) {
-					spnBrand.setVisibility(View.GONE);
-					lblBrandSku.setVisibility(View.GONE);
-					spnCompany.setVisibility(View.GONE);
-					lblCompanySku.setVisibility(View.GONE);
-				} else {
-					spnBrand.setVisibility(View.VISIBLE);
-					lblBrandSku.setVisibility(View.VISIBLE);
-					spnCompany.setVisibility(View.VISIBLE);
-					lblCompanySku.setVisibility(View.VISIBLE);
-				}
+					@Override
+					public void onNothingSelected(AdapterView<?> arg0) {
+					}
+		});
+		
+		brandRak = new TmBrand();
+		brandRak.setKodeCompany(perusahaan.getKode());
+		listRakBrand = (ArrayList<TmBrand>) brandRakDao.listByExample(brandRak);
+		lsBrandRak = new String[listRakBrand.size()];
+		for (int i = 0; i < listRakBrand.size(); i++) {
+			if(listRakBrand.get(i).getNama().equals(brand.getNama())){
+				position = i;
+			}
+		    lsBrandRak[i] = listRakBrand.get(i).getNama();
+		}
+	
+		ArrayAdapter<String> adapterBrandRak = new ArrayAdapter<String>(
+				TabSurveyOutlet.this,
+				android.R.layout.simple_spinner_item, lsBrandRak);
+		adapterBrandRak
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spnBrand.setAdapter(adapterBrandRak);
+		spnBrand.setSelection(position);
+		spnBrand.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-				ArrayAdapter<String> adapterCompany = new ArrayAdapter<String>(
-						TabSurveyOutlet.this,
-						android.R.layout.simple_spinner_item, lsCompany);
-				adapterCompany
-						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spnCompany.setAdapter(adapterCompany);
-				spnCompany
-						.setOnItemSelectedListener(new OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int index, long arg3) {
+				brandRak = new TmBrand();
+				brandRak = listRakBrand.get(index);
+			}
 
-							@Override
-							public void onItemSelected(AdapterView<?> arg0,
-									View arg1, int index, long arg3) {
-								company = new TmCompany();
-								company = listCompany.get(index);
-							}
-
-							@Override
-							public void onNothingSelected(AdapterView<?> arg0) {
-							}
-						});
-				
-				tkcb = new TmKategoriCompanyBrand();
-				tkcb.setKode_company(perusahaan.getKode());
-				tkcb.setKode_brand(brand.getKode());
-				tkcb = tkcbDao.listByExample(tkcb).get(0);
-				listSubKategoriBarang.clear();
-				subKategori = new TmSubKategoriBarang();
-				subKategori.setKode(tkcb.getKode_sub_kategori());
-				listSubKategoriBarang = subKategoriDao.listByExample(subKategori);
-				lsSubKategoriBarang = new String[listSubKategoriBarang.size()];
-				for (int i = 0; i < listSubKategoriBarang.size(); i++) {
-					lsSubKategoriBarang[i] = listSubKategoriBarang.get(i)
-							.getNama();
-				}
-				ArrayAdapter<String> adapterSubKategori = new ArrayAdapter<String>(
-						TabSurveyOutlet.this,
-						android.R.layout.simple_spinner_item,
-						lsSubKategoriBarang);
-				adapterSubKategori
-						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spnSubKatagori.setAdapter(adapterSubKategori);
-				spnSubKatagori
-						.setOnItemSelectedListener(new OnItemSelectedListener() {
-							@Override
-							public void onItemSelected(AdapterView<?> arg0,
-									View arg1, int index, long arg3) {
-								subKategori = new TmSubKategoriBarang();
-								subKategori = listSubKategoriBarang.get(index);
-							}
-
-							@Override
-							public void onNothingSelected(AdapterView<?> arg0) {
-							}
-						});
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
 	}

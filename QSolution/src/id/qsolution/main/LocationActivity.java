@@ -248,10 +248,16 @@ public class LocationActivity extends Activity{
 //					location.getLongitude(), location.getLatitude()
 //
 //			);
-
+			int value  = 0;
+			value = (int) location.getLongitude();
+			
 			txtLon.setText(String.valueOf(location.getLongitude()));
 			txtLat.setText(String.valueOf(location.getLatitude()));
-
+			
+			if(value != 0){
+				getLocation();
+			}
+		
 //			longToast(message);
 			//			Toast.makeText(TabDataActivity.this, message, Toast.LENGTH_LONG).show();
 		}

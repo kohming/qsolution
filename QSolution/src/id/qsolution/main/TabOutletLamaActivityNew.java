@@ -2,6 +2,8 @@ package id.qsolution.main;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -27,14 +29,19 @@ import id.qsolution.models.dao.TtPhotoDao;
 import id.qsolution.util.NamaFile;
 import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.telephony.TelephonyManager;
@@ -343,6 +350,7 @@ public class TabOutletLamaActivityNew extends TabActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
+		
 		case 100:
 			xcoord = data.getStringExtra("xcoord");
 			ycoord = data.getStringExtra("ycoord");
@@ -350,13 +358,13 @@ public class TabOutletLamaActivityNew extends TabActivity {
 			txtLon.setText(ycoord);
 			txtLat.setText(xcoord);
 			break;
-		
 			
-		case 200:
+		case CAMERA_REQUEST:
 			try {
 				if(data != null){
-					Bitmap img = (Bitmap) data.getExtras().get("data");
+					//Bitmap img = (Bitmap) data.getExtras().get("data");
 					Uri selectedImageUri = data.getData();
+					
 					path = getRealPathFromURI(selectedImageUri);
 					final EditText input = new EditText(TabOutletLamaActivityNew.this);
 					AlertDialog.Builder alert = new AlertDialog.Builder(TabOutletLamaActivityNew.this);
@@ -442,7 +450,6 @@ public class TabOutletLamaActivityNew extends TabActivity {
 	}
 	
 	
-	
 	private void viewPhoto() {
 		photo = new TtDKunjunganSurveyorPhoto();
 		photoDao = new TtDKunjunganSurveyorPhotoDao(getApplicationContext());
@@ -462,7 +469,7 @@ public class TabOutletLamaActivityNew extends TabActivity {
 					photoDao.delete(photo.getId());
 					File file = new File(photo.getNamaFile());
 					file.delete();
-					Toast.makeText(getApplicationContext(), "Foto telah dihapus index "+i, Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Foto telah dihapus", Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
 					Toast.makeText(getApplicationContext(), "Error "+e.getMessage(), Toast.LENGTH_LONG).show();
 				}
@@ -476,11 +483,11 @@ public class TabOutletLamaActivityNew extends TabActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				TtPhoto foto = (TtPhoto) fotoAdapter.getItem(position);
+				TtDKunjunganSurveyorPhoto foto = (TtDKunjunganSurveyorPhoto) fotoAdapter.getItem(position);
 				LayoutInflater inflater = getLayoutInflater();
 				View layout = inflater.inflate(R.layout.toast_img_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
 				ImageView image = (ImageView) layout.findViewById(R.id.image);
-				image.setImageDrawable(Drawable.createFromPath(foto.getNama()));
+				image.setImageDrawable(Drawable.createFromPath(foto.getNamaFile()));
 				Toast toast = new Toast(getApplicationContext());
 				toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 				toast.setDuration(Toast.LENGTH_SHORT);

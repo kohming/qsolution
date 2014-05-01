@@ -66,18 +66,11 @@ public class SurveyedOutletActivity extends Activity {
 	private void loadOutlet() {
 		
 		ArrayList<String> lst = new ArrayList<String>();
-	    /*lst.add("ABC");
-	    lst.add("ABC");
-	    lst.add("ABCD");
-	    lst.add("ABCD");
-	    lst.add("ABCE");*/
-
-	   // System.out.println("Duplicates List "+lst);
-
-	    /**/
+		TtMKunjunganSurveyor surveyed = new TtMKunjunganSurveyor();
+		surveyed.setStatus("upload");
 		
-		for (TtMKunjunganSurveyor kunungan : kunjunganDao.listAll()) {
-			lst.add(kunungan.getKodeOutlet());
+		for (TtMKunjunganSurveyor k : kunjunganDao.listByExample(surveyed)) {
+			lst.add(k.getKodeOutlet()+"-"+k.getKodeKategori());
 		}
 		
 		Object[] st = lst.toArray();
