@@ -105,7 +105,7 @@ public class UploadDataActivity extends TabActivity{
 	private TtDKunjunganSurveyorPhotoDao fotoDao;
 	private Button btnUploadData;
 	private Button btnUploadFoto;
-	private GenericRespons<TmResult> dataUpload = new UploadResponsService();
+	private GenericRespons<String> dataUpload = new UploadResponsService();
 	private ProgressDialog progressDialog;
 	private int responsCode;
 	private Result respons = new Result();
@@ -265,10 +265,10 @@ public class UploadDataActivity extends TabActivity{
 		}
 	}
 	
-	private class PerformDataUploadTask extends AsyncTask<String, Void, TmResult> {
+	private class PerformDataUploadTask extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected TmResult doInBackground(String... params) {
+		protected String doInBackground(String... params) {
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			nameValuePairs.add(new BasicNameValuePair("opt", "krm"));
 			nameValuePairs.add(new BasicNameValuePair("data", params[0]));
@@ -276,19 +276,26 @@ public class UploadDataActivity extends TabActivity{
 		}
 
 		@Override
-		protected void onPostExecute(final TmResult result) {
+		protected void onPostExecute(final String respons) {
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
+
+					if (progressDialog != null) {
+						progressDialog.dismiss();
+						progressDialog = null;
+					}
+
+					TmResult result = new TmResult();
+
 					try {
-						if (progressDialog != null) {
-							progressDialog.dismiss();
-							progressDialog = null;
-						}
-						if(result.getMassage().equals("200")){
+						Gson gson = new Gson();
+						JSONObject file = new JSONObject(respons);
+						result = gson.fromJson(file.getString("tmResult"),TmResult.class);
+						if (result.getMassage().equals("200")) {
 							kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
 							long[] lChecked = lsData.getCheckItemIds();
-							for(int i = 0;i<lChecked.length;i++){
+							for (int i = 0; i < lChecked.length; i++) {
 								Kunjungan o = kunjunganAdapter.getItem((int) lChecked[i]);
 								TtMKunjunganSurveyor ku = new TtMKunjunganSurveyor();
 								ku.setKode(o.getKode());
@@ -297,21 +304,20 @@ public class UploadDataActivity extends TabActivity{
 								kunjunganDao.update(ku);
 							}
 							loadOutlet();
-							//loadSurvey();
 							longToast("upload berhasil");
-						}else{
-							longToast("upload gagal "+result.getMassage());
+						} else {
+							longToast("upload gagal " + result.getMassage());
 						}
-						//longToast("upload berhasil");
 					} catch (Exception e) {
-						longToast("upload gagal");
+						longToast("JSON error " + e.getMessage());
 					}
 				}
 			});
 		}
 
 		protected void longToast(String msg) {
-			Toast.makeText(getApplicationContext(), msg , Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG)
+					.show();
 		}
 	}
 	

@@ -10,14 +10,14 @@ import org.json.JSONObject;
 import android.util.Log;
 import com.google.gson.Gson;
 
-public class UploadResponsService extends GenericRespons<TmResult> {
+public class UploadResponsService extends GenericRespons<String> {
 
 	@Override
-	public TmResult find(String query) {
-		Gson gson = new Gson();
-		String response = retrieveRespons(query);
-		TmResult respons = gson.fromJson(response, TmResult.class);
-		return respons;	
+	public String find(String query) {
+		//Gson gson = new Gson();
+		return retrieveRespons(query);
+		//TmResult respons = gson.fromJson(response, TmResult.class);
+		//return respons;	
 	}
 
 	private String retrieveRespons(String query) {
@@ -35,19 +35,16 @@ public class UploadResponsService extends GenericRespons<TmResult> {
 	}
 
 	@Override
-	public TmResult find(List<NameValuePair> nameValuePairs) {
-		Gson gson = new Gson();
-		TmResult respons = new TmResult();
-		try {
-		String response = retrieveRespons(nameValuePairs);
+	public String find(List<NameValuePair> nameValuePairs) {
+		//Gson gson = new Gson();
+		//TmResult respons = new TmResult();
+	
+			return retrieveRespons(nameValuePairs);
+			//JSONObject test = new JSONObject(response);
+			//respons = gson.fromJson(test.getString("tmResult"), TmResult.class);
 		
-			JSONObject test = new JSONObject(response);
-			respons = gson.fromJson(test.getString("tmResult"), TmResult.class);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
 		
-		return respons;
+		//return respons;
 	}
 
 	private String retrieveRespons(List<NameValuePair> nameValuePairs) {
