@@ -1,6 +1,5 @@
 package id.qsolution.global;
 
-import java.util.List;
 
 public class Library {
 	

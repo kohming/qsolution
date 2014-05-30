@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-
 import id.qsolution.adapter.PhotoRakAdapter;
 import id.qsolution.adapter.PosmOutletAdapter;
 import id.qsolution.models.DaftarOutletSurvey;
@@ -22,6 +21,7 @@ import id.qsolution.models.TmKategoriCompanyBrand;
 import id.qsolution.models.TmOutlet;
 import id.qsolution.models.TmPackage;
 import id.qsolution.models.TmPosm;
+import id.qsolution.models.TmRak;
 import id.qsolution.models.TmSku;
 import id.qsolution.models.TmSubKategoriBarang;
 import id.qsolution.models.TmSurveyor;
@@ -40,6 +40,7 @@ import id.qsolution.models.dao.TmKategoriBarangDao;
 import id.qsolution.models.dao.TmKategoriCompanyBrandDao;
 import id.qsolution.models.dao.TmPackageDao;
 import id.qsolution.models.dao.TmPosmDao;
+import id.qsolution.models.dao.TmRakDao;
 import id.qsolution.models.dao.TmSubKategoriBarangDao;
 import id.qsolution.models.dao.TmVolumDao;
 import id.qsolution.models.dao.TtDKunjunganSurveyorOutletPosmDao;
@@ -58,7 +59,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.telephony.TelephonyManager;
@@ -187,6 +187,12 @@ public class TabSurveySku extends TabActivity {
 	private String[] lsBrandRak;
 	private TmKategoriCompanyBrand tkcb;
 	private TmKategoriCompanyBrandDao tkcbDao;
+	private TmBrand brand;
+	private TmCompany comp;
+	private int iCompany = 0;
+	private int iBrand = 0;
+	private int iSubKategori= 0;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -201,11 +207,16 @@ public class TabSurveySku extends TabActivity {
 		outletPosm = new TtDKunjunganSurveyorOutletPosm();
 		outletPosmDao = new TtDKunjunganSurveyorOutletPosmDao(getApplicationContext());
 		tkcbDao = new TmKategoriCompanyBrandDao(getApplicationContext());
+		brandRakDao = new TmBrandDao(getApplicationContext());
 		surveyor = (TmSurveyor) getIntent().getSerializableExtra("surveyor");
 		outlet = (TmOutlet) getIntent().getSerializableExtra("outlet");
 		rak = (TtDKunjunganSurveyorRak) getIntent().getSerializableExtra("rak");
 		kategori = (DaftarOutletSurvey) getIntent().getSerializableExtra("kategori");
 		kunjungan = (TtMKunjunganSurveyor) getIntent().getSerializableExtra("kunjungan");
+		
+		brand = (TmBrand) getIntent().getSerializableExtra("brand");
+		comp = (TmCompany) getIntent().getSerializableExtra("company");
+		
 		locked = getIntent().getBooleanExtra("locked", false);
 		xcoord = getIntent().getStringExtra("xcoord");
 		ycoord = getIntent().getStringExtra("ycoord");
@@ -236,14 +247,52 @@ public class TabSurveySku extends TabActivity {
 				.setContent(R.id.form3);
 		tabHost.addTab(spec);
 		tabHost.setCurrentTab(0);
+		brandRak = new TmBrand();
+		brandRakDao = new TmBrandDao(getApplicationContext());
 		initView();
-		loadSearch();
+		//if(isBranded(rak)){
+		loadSearch();	
+		//} else{
+		//	txtSearch.setVisibility(View.GONE);
+		//}
 		loadForm();
 		loadKategori();
 		loadPosm();
 		createListener();
 		loadQuestion();
 		viewPhoto();
+	}
+	
+	private String getBrand(String kodeBrand) {
+		String result = "";
+		try {
+			TmBrand brand = new TmBrand();
+			brand.setKode(kodeBrand);
+			TmBrandDao brandDao = new TmBrandDao(getApplicationContext());
+			brand = brandDao.getByExample(brand);
+			result = brand.getNama();
+			
+		} catch (Exception e) {
+			result = "";
+		}
+		return result;
+	}
+
+	private boolean isBranded(TtDKunjunganSurveyorRak rak2) {
+		TmRak r = new TmRak();
+		TmRakDao rDao = new TmRakDao(getApplicationContext());
+		r.setKode(rak2.getKodeRak());
+		try {
+			r = rDao.getByExample(r);
+			if(r.getBranded().equals("01")){
+				return true;
+			}else{
+				return false;
+			}
+			
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private void loadSearch() {
@@ -291,16 +340,18 @@ public class TabSurveySku extends TabActivity {
 			}
 
 			private void setSpinner(TmBrand brand, TmCompany perusahaan) {
-				int position = 0;
-				listRakBrand.clear();
-				listRakBrand = (ArrayList<TmBrand>) brandRakDao.listByExample(brand);
+				int index = 0;
+				brandRak = new TmBrand();
+				brandRak.setKodeCompany(perusahaan.getKode());
+				listRakBrand = new ArrayList<TmBrand>();
+				listRakBrand = (ArrayList<TmBrand>) brandRakDao
+						.listByExample(brandRak);
 				lsBrandRak = new String[listRakBrand.size()];
 				for (int i = 0; i < listRakBrand.size(); i++) {
-					if(listRakBrand.get(i).getNama().equals(brand.getNama())){
-						position = i;
-					}
 					lsBrandRak[i] = listRakBrand.get(i).getNama();
-					
+					if(brand.getNama().equals(listRakBrand.get(i).getNama())){
+						index = i;
+					}
 				}
 				ArrayAdapter<String> adapterBrandRak = new ArrayAdapter<String>(
 						TabSurveySku.this,
@@ -308,7 +359,7 @@ public class TabSurveySku extends TabActivity {
 				adapterBrandRak
 						.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 				spnBrand.setAdapter(adapterBrandRak);
-				spnBrand.setSelection(position);
+				spnBrand.setSelection(index);
 				spnBrand.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 					@Override
@@ -325,10 +376,11 @@ public class TabSurveySku extends TabActivity {
 				});
 				
 				// Load Company
-				listCompany.clear();
+				listCompany = new ArrayList<TmCompany>();
 				company = new TmCompany();
+				company.setKode(perusahaan.getKode());
 				listCompany = (ArrayList<TmCompany>) companyDao
-						.listByExample(perusahaan);
+						.listByExample(company);
 				lsCompany = new String[listCompany.size()];
 
 				for (int i = 0; i < listCompany.size(); i++) {
@@ -576,6 +628,7 @@ public class TabSurveySku extends TabActivity {
 					rakSku.setNomorUrut(rak.getNomorUrut());
 					rakSku.setNamaSku(sku.getDeskripsi());
 					rakSkuDao.insert(rakSku);
+					txtBrand.setText("");
 					txtProduk.setText("");
 					txtJumlahFacing.setText("");
 					txtJumlahUnit.setText("");
@@ -583,7 +636,7 @@ public class TabSurveySku extends TabActivity {
 					rakSku.setKodePackage(sku.getKodePackage());
 					rakSku.setKodeVolum(sku.getKodeVolum());
 					Toast.makeText(getApplicationContext(),
-							"Sku berhasil disimpan", Toast.LENGTH_LONG)
+							"SKU berhasil disimpan", Toast.LENGTH_LONG)
 							.show();
 				}
 			}
@@ -618,19 +671,12 @@ public class TabSurveySku extends TabActivity {
 
 		btnPhoto.setOnClickListener(new OnClickListener() {
 
-			private File output ;
-
 			@Override
 			public void onClick(View v) {
 				try {
-					Intent i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					File dir= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-					output =new File(dir, surveyor.getKode()+"_"+kunjungan.getKode()+new SimpleDateFormat("MMddyyyy HH:mm:ss").format(new Date())+".jpeg");
-					i.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
-					startActivityForResult(i, CAMERA_REQUEST);
-					/*Intent cameraIntent = new Intent(
+					Intent cameraIntent = new Intent(
 							android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-					startActivityForResult(cameraIntent, CAMERA_REQUEST);*/
+					startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
 				} catch (Exception e) {
 					Log.i(this.getClass().getName(), e.getMessage());
@@ -735,6 +781,7 @@ public class TabSurveySku extends TabActivity {
 				intent.putExtra("kunjungan", kunjungan);
 				intent.putExtra("rak", rak);
 				intent.putExtra("kategori", kategori);
+				intent.putExtra("subkategori", subKategori);
 				intent.putExtra("locked", locked);
 				intent.putExtra("xcoord", xcoord);
 				intent.putExtra("ycoord", ycoord);
@@ -781,6 +828,9 @@ public class TabSurveySku extends TabActivity {
 		case 200:
 			try {
 				sku = (TmSku) data.getSerializableExtra("sku");
+				brandRak = getBrand(sku);
+				/*brandRak.setKode(sku.getKodeBrand());			
+				brandRak = brandRakDao.getByExample(brandRak);*/
 				outlet = (TmOutlet) data.getSerializableExtra("outlet");
 				surveyor = (TmSurveyor) data.getSerializableExtra("surveyor");
 				kunjungan = (TtMKunjunganSurveyor) data.getSerializableExtra("kunjungan");
@@ -788,6 +838,7 @@ public class TabSurveySku extends TabActivity {
 				ycoord = data.getStringExtra("ycoord");
 				locked = data.getBooleanExtra("locked", false);
 				txtProduk.setText(sku.getDeskripsi());
+				txtBrand.setText(brandRak.getNama());
 				/*if (sku == null) {
 					txtProduk.setText("");
 				} else {
@@ -795,12 +846,14 @@ public class TabSurveySku extends TabActivity {
 				}*/
 				//Toast.makeText(getApplicationContext(), "Kunjungan "+kunjungan.getKodeOutlet(), Toast.LENGTH_LONG).show();
 			} catch (Exception e) {
+				Log.i("error select product ", e.getMessage());
 				txtProduk.setText("");
+				txtBrand.setText("");
 			}
 
 			break;
 
-		case CAMERA_REQUEST:
+		case 300:
 			try {
 				if(data != null){
 					Bitmap img = (Bitmap) data.getExtras().get("data");
@@ -871,6 +924,18 @@ public class TabSurveySku extends TabActivity {
 		default:
 			break;
 		}
+	}
+
+	private TmBrand getBrand(TmSku sku2) {
+		TmBrand b = new TmBrand();
+		try {
+			b.setKode(sku2.getKodeBrand());
+			b = brandRakDao.getByExample(b);
+		} catch (Exception e) {
+			return b;
+		}
+		
+		return b;
 	}
 
 	private String getRealPathFromURI(Uri contentUri) {
@@ -975,10 +1040,14 @@ public class TabSurveySku extends TabActivity {
 		lsSubKategoriBarang = new String[listSubKategoriBarang.size()];
 		for (int i = 0; i < listSubKategoriBarang.size(); i++) {
 			lsSubKategoriBarang[i] = listSubKategoriBarang.get(i).getNama();
+			if(getSubCategory(listSubKategoriBarang.get(i).getKode())){
+				iSubKategori=i;
+			}
 		}
 		ArrayAdapter<String> adapterSubKategori = new ArrayAdapter<String>(TabSurveySku.this, android.R.layout.simple_spinner_item,lsSubKategoriBarang);
 		adapterSubKategori.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnSubKatagori.setAdapter(adapterSubKategori);
+		spnSubKatagori.setSelection(iSubKategori);
 		spnSubKatagori.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -987,7 +1056,14 @@ public class TabSurveySku extends TabActivity {
 				if(listSubKategoriBarang.size() > 0){
 					subKategori = new TmSubKategoriBarang();
 					subKategori = listSubKategoriBarang.get(index);
-					loadCompany(subKategori);
+					if(isBranded(rak)){
+						loadCompany(subKategori);
+					}else{
+						spnCompany.setVisibility(View.GONE);
+						spnBrand.setVisibility(View.GONE);
+						lblBrandSku.setVisibility(View.GONE);
+						lblCompanySku.setVisibility(View.GONE);
+					}
 				}
 			}
 
@@ -999,33 +1075,54 @@ public class TabSurveySku extends TabActivity {
 		});
 	}
 
+	private boolean getSubCategory(String kode) {
+		try {
+			TmKategoriCompanyBrand kcb = new TmKategoriCompanyBrand();
+			TmKategoriCompanyBrandDao kcbDao = new TmKategoriCompanyBrandDao(getApplicationContext());
+			kcb.setKode_brand(rak.getKodeBrand());
+			kcb.setKode_company(comp.getKode());
+			kcb = kcbDao.listByExample(kcb).get(0);
+			if(kode.equals(kcb.getKode_sub_kategori())){
+				return true;
+			}else{
+				return false;
+			}
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	private void loadCompany(TmSubKategoriBarang subKategori) {
 		company = new TmCompany();
 		companyDao = new TmCompanyDao(getApplicationContext());
 		listCompany = new ArrayList<TmCompany>();
 		listCompany.clear();
 		listCompany = getListCompany(subKategori);
-		if(listCompany.size() <= 0){
-			brandRak = new TmBrand();
-			txtBrand.setText(brandRak.getNama());
-			txtProduk.setText("");
-			spnBrand.setVisibility(View.GONE);
-			lblBrandSku.setVisibility(View.GONE);
-			spnCompany.setVisibility(View.GONE);
-			lblCompanySku.setVisibility(View.GONE);
-		}else{
+		if(listCompany.size() > 0){
 			spnBrand.setVisibility(View.VISIBLE);
 			lblBrandSku.setVisibility(View.VISIBLE);
 			spnCompany.setVisibility(View.VISIBLE);
 			lblCompanySku.setVisibility(View.VISIBLE);
+		}else{
+			/*brandRak = new TmBrand();
+			txtBrand.setText(brandRak.getNama());
+			txtProduk.setText("");*/
+			spnBrand.setVisibility(View.GONE);
+			lblBrandSku.setVisibility(View.GONE);
+			spnCompany.setVisibility(View.GONE);
+			lblCompanySku.setVisibility(View.GONE);
 		}
 		lsCompany = new String[listCompany.size()];
 		for (int i = 0; i < listCompany.size(); i++) {
+			if(listCompany.get(i).getKode().equals(comp.getKode())){
+				iCompany = i;
+			}
 			lsCompany[i] = listCompany.get(i).getNama();
 		}
 		ArrayAdapter<String> adapterCompany = new ArrayAdapter<String>(TabSurveySku.this, android.R.layout.simple_spinner_item, lsCompany);
 		adapterCompany.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnCompany.setAdapter(adapterCompany);
+		spnCompany.setSelection(iCompany);
 		spnCompany.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
@@ -1154,7 +1251,14 @@ private List<TmCompany> getListCompany(TmSubKategoriBarang subKategori) {
 		listRakBrand = getBrand(companyRak);
 		String[]  lsBrandRak = new String[listRakBrand.size()];
 		for (int i = 0; i < listRakBrand.size(); i++) {
+			if(listRakBrand.get(i).getNama().equals(rak.getKodeNamaBrand())){
+				iBrand = i;
+			}
 			lsBrandRak[i] = listRakBrand.get(i).getNama();
+			
+			/*if(listRakBrand.get(i).getKode().equals(brand.getKode())){
+				iBrand = i;
+			}*/
 			/*if(kategoriBarang.getKode().equals(listRakBrand.get(i).getKode().substring(0, 2))){
 				lsBrandRak[i] = listRakBrand.get(i).getNama();
 			}*/
@@ -1165,13 +1269,14 @@ private List<TmCompany> getListCompany(TmSubKategoriBarang subKategori) {
 		adapterBrandRak
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spnBrand.setAdapter(adapterBrandRak);
+		spnBrand.setSelection(iBrand);
 		spnBrand.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
+					int index, long arg3) {
 				if(listRakBrand.size() > 0){
-					brandRak = listRakBrand.get(arg2);
+					brandRak = listRakBrand.get(index);
 					txtBrand.setText(brandRak.getNama());
 					txtProduk.setText("");
 				}

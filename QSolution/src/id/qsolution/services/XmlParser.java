@@ -11,6 +11,7 @@ import org.xml.sax.XMLReader;
 
 public class XmlParser {
 
+	@SuppressWarnings("unused")
 	private XMLReader initializeReader() throws ParserConfigurationException, SAXException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		// create a parser

@@ -25,13 +25,10 @@
         <activity
             android:name="id.qsolution.main.TabSurveySku"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="id.qsolution.main.TabSurveyOutlet"
-            android:theme="@style/Theme.Light.NoTitleBar.Workaround" />
+        
+        <activity android:name="id.qsolution.main.TabSurveyOutlet"/>
         <activity android:name="id.qsolution.main.ActivityPilihKategori" />
-        <activity
-            android:name="id.qsolution.main.TabOutletLamaActivityNew"
-            android:screenOrientation="portrait" />
+        <activity android:name="id.qsolution.main.TabOutletLamaActivityNew" />
         <activity android:name="id.qsolution.main.ActivityCreateRak" />
         <activity android:name="id.qsolution.main.TabOutletLamaActivity" />
         <activity android:name="id.qsolution.main.ReasonActivity" />
@@ -49,9 +46,7 @@
         <activity
             android:name="id.qsolution.main.TabSurveyOutletActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="id.qsolution.main.TabSurveyAudit"
-            android:screenOrientation="portrait" />
+        <activity android:name="id.qsolution.main.TabSurveyAudit" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

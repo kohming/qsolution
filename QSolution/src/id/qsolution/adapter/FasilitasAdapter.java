@@ -4,10 +4,7 @@ import id.qsolution.main.R;
 import id.qsolution.models.TmFasilitas;
 import id.qsolution.models.TmOutletFasilitas;
 import id.qsolution.models.dao.TmFasilitasDao;
-import id.qsolution.models.dao.TmOutletFasilitasDao;
-
 import java.util.List;
-
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +31,7 @@ public class FasilitasAdapter extends QsolutionAdapter{
 		TextView no = (TextView) v.findViewById(R.id.txtNo);
 		TextView header = (TextView) v.findViewById(R.id.header);
 		TextView detail = (TextView) v.findViewById(R.id.detail);
+		
 		TmFasilitas fasilitas = new TmFasilitas();
 		TmFasilitasDao fasilitasDao = new TmFasilitasDao(act.getApplicationContext());
 		

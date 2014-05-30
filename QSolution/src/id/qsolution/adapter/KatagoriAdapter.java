@@ -90,6 +90,7 @@ public class KatagoriAdapter extends QsolutionAdapter{
 				return result;
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			protected void publishResults(CharSequence constrain, FilterResults results) {
 				listFilter = (ArrayList<TmOutlet>) results.values;

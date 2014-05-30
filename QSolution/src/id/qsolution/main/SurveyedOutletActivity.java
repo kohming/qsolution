@@ -1,35 +1,29 @@
 package id.qsolution.main;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-
-import id.qsolution.adapter.KunjunganOutletsAdapter;
 import id.qsolution.adapter.OutletsAdapter;
 import id.qsolution.models.TmOutlet;
 import id.qsolution.models.TmSurveyor;
 import id.qsolution.models.TtMKunjunganSurveyor;
 import id.qsolution.models.dao.TmOutletDao;
 import id.qsolution.models.dao.TtMKunjunganSurveyorDao;
-import id.qsolution.pojos.Kunjungan;
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class SurveyedOutletActivity extends Activity {
 
+	@SuppressWarnings("unused")
 	private TmSurveyor surveyor;
 	private ListView lsOutlet;
 	private TmOutletDao outletDao;
 	private List<TmOutlet> outlets = new ArrayList<TmOutlet>();
-	private KunjunganOutletsAdapter adapter;
+	private OutletsAdapter adapter;
 	private TmOutlet outlet;
+	@SuppressWarnings("unused")
 	private TtMKunjunganSurveyor kunjungan;
 	private TtMKunjunganSurveyorDao kunjunganDao;
-	private ArrayList<TtMKunjunganSurveyor> listKategori;
-	private ArrayAdapter<Kunjungan> kunjunganAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +37,18 @@ public class SurveyedOutletActivity extends Activity {
 		outletDao = new TmOutletDao(getApplicationContext());
 		kunjungan = new TtMKunjunganSurveyor();
 		kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
-		loadOutlet();
 		
 	}
 	
+	@Override
+	protected void onStart() {
+		super.onStart();
+		loadOutlet();
+	}
 
 	private void initView() {
 		lsOutlet = (ListView) findViewById(R.id.lsOutlet);
 	}
-	
 	
 	/*private boolean isNullOrEmpty(String txt) {
 		try {
@@ -67,10 +64,19 @@ public class SurveyedOutletActivity extends Activity {
 	*/
 	private void loadOutlet() {
 		
-		/*ArrayList<String> lst = new ArrayList<String>();
-	
-		for (TtMKunjunganSurveyor k : kunjunganDao.listAll()) {
-			lst.add(k.getKodeOutlet());
+		ArrayList<String> lst = new ArrayList<String>();
+	    /*lst.add("ABC");
+	    lst.add("ABC");
+	    lst.add("ABCD");
+	    lst.add("ABCD");
+	    lst.add("ABCE");*/
+
+	   // System.out.println("Duplicates List "+lst);
+
+	    /**/
+		
+		for (TtMKunjunganSurveyor kunungan : kunjunganDao.listAll()) {
+			lst.add(kunungan.getKodeOutlet());
 		}
 		
 		Object[] st = lst.toArray();
@@ -86,27 +92,24 @@ public class SurveyedOutletActivity extends Activity {
 			outlets.add(outlet);
 		}
 		
-		for(TmOutlet o : outletDao.listAll()){
+		/*for(TmOutlet o : outletDao.listAll()){
 			if(!isNull(o.getStatus())){
 				outlets.add(o);
 			}
 		}*/
 		//outlets = outletDao.listByExample(outlet);
-		kunjungan = new TtMKunjunganSurveyor();
-		kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
-		kunjungan.setStatus("upload");
-		adapter = new KunjunganOutletsAdapter(this, kunjunganDao.listByExample(kunjungan));
+		adapter = new OutletsAdapter(this, outlets);
 		lsOutlet.setAdapter(adapter);
 		lsOutlet.invalidateViews();
 		adapter.notifyDataSetChanged();
 	}
 
-	private boolean isNull(String status) {
+	/*private boolean isNull(String status) {
 		try {
 			if(status.equals("") || status == null) return true;
 		} catch (Exception e) {
 			return true;
 		}
 		return false;
-	}
+	}*/
 }

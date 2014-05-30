@@ -1,12 +1,7 @@
 package id.qsolution.adapter;
 
 import id.qsolution.main.R;
-import id.qsolution.models.TmKlasifikasiOutlet;
 import id.qsolution.models.TmOutlet;
-import id.qsolution.models.TmTipeOutlet;
-import id.qsolution.models.dao.TmKlasifikasiOutletDao;
-import id.qsolution.models.dao.TmTipeOutletDao;
-
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;
@@ -89,6 +84,7 @@ public class OutletsAdapter extends QsolutionAdapter{
 				return result;
 			}
 
+			@SuppressWarnings("unchecked")
 			@Override
 			protected void publishResults(CharSequence constrain, FilterResults results) {
 				listFilter = (ArrayList<TmOutlet>) results.values;

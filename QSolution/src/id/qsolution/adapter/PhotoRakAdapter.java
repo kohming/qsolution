@@ -1,9 +1,7 @@
 package id.qsolution.adapter;
 
 import id.qsolution.main.R;
-import id.qsolution.models.TtDKunjunganSurveyorOutletPosm;
 import id.qsolution.models.TtDKunjunganSurveyorRakFoto;
-import id.qsolution.models.TtPhotoRak;
 import java.util.List;
 import android.app.Activity;
 import android.graphics.drawable.Drawable;

@@ -49,17 +49,20 @@ public class BrandActivity extends Activity {
 	private String[] lsBrand;
 	private TmKlasifikasiOutlet klasifikasi;
 	private TmKlasifikasiOutletDao klasifikasiDao;
+	@SuppressWarnings("unused")
 	private ArrayList<TmKlasifikasiOutlet> listKlasifikasi;
 	private TextView lblSumberProduk;
 	private TmPosm posm;
 	private TmPosmDao posmDao;
 	private List<TmPosm> listPosm;
 	private String[] lsPosm;
+	@SuppressWarnings("unused")
 	private TmSumberProduk sumber;
 	private TmSumberProdukDao sumberDao;
 	private List<TmSumberProduk> listSumber;
 	private String[] lsSumber;
 	private Button btnTambah;
+	@SuppressWarnings("unused")
 	private TmStatusKunjungan kunjungan;
 	private EditText txtJumlah;
 	private String kodeKunjungan;

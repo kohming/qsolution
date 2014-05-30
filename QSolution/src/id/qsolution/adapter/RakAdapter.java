@@ -86,7 +86,7 @@ public class RakAdapter extends QsolutionAdapter {
 		return result;
 	}
 
-	private String isNull(String nama) {
+	/*private String isNull(String nama) {
 		String result = "";
 		try {
 			result = nama;
@@ -94,6 +94,6 @@ public class RakAdapter extends QsolutionAdapter {
 			 result = "";
 		}
 		return result;
-	}
+	}*/
 
 }

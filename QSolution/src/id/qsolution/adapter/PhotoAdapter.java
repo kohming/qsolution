@@ -1,5 +1,6 @@
 package id.qsolution.adapter;
 
+
 import id.qsolution.main.R;
 import id.qsolution.models.TtDKunjunganSurveyorPhoto;
 import java.io.File;
@@ -21,11 +22,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class PhotoAdapter extends QsolutionAdapter{
-	
+public class PhotoAdapter extends QsolutionAdapter {
+
 	int IMAGE_MAX_SIZE = 100;
-	Activity act = null;
-	
+	private static Activity act = null;
+	private static final int MAX_HEIGHT = 100;
+	private static final int MAX_WIDTH = 100;
+
 	public PhotoAdapter(Activity activity) {
 		super(activity);
 		act = activity;
@@ -38,16 +41,17 @@ public class PhotoAdapter extends QsolutionAdapter{
 
 	@Override
 	public View getView(int index, View view, ViewGroup viewGroup) {
+		
 		View v = view;
 		if (v == null) v = lyInflater.inflate(R.layout.image_row, null);
-		ImageView image =(ImageView) v.findViewById(R.id.imgOutlet);
+		ImageView image = (ImageView) v.findViewById(R.id.imgOutlet);
 		TextView header = (TextView) v.findViewById(R.id.header);
 		TextView detail = (TextView) v.findViewById(R.id.detail);
 		TtDKunjunganSurveyorPhoto foto = (TtDKunjunganSurveyorPhoto) getItem(index);
-		
-		//image.setImageDrawable(Drawable.createFromPath(foto.getNamaFile()));
-		
-		//File imgFile = new  File();
+
+		// image.setImageDrawable(Drawable.createFromPath(foto.getNamaFile()));
+
+		// File imgFile = new File();
 
 		try {
 			image.setImageBitmap(decodeSampledBitmap(act,
@@ -60,131 +64,111 @@ public class PhotoAdapter extends QsolutionAdapter{
 		detail.setText(foto.getDeskripsi());
 		return v;
 	}
-	
 
-	 /**
-		 * Rotate an image if required.
-		 * @param img
-		 * @param selectedImage
-		 * @return 
-		 */
-		private static Bitmap rotateImageIfRequired(Context context,Bitmap img, Uri selectedImage) {
+	/**
+	 * Rotate an image if required.
+	 * 
+	 * @param img
+	 * @param selectedImage
+	 * @return
+	 */
+	private static Bitmap rotateImageIfRequired(Context context, Bitmap img,
+			Uri selectedImage) {
 
-		    // Detect rotation
-		    int rotation=getRotation(context, selectedImage);
-		    if(rotation!=0){
-		        Matrix matrix = new Matrix();
-		        matrix.postRotate(rotation);
-		        Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(), img.getHeight(), matrix, true);
-		        img.recycle();
-		        return rotatedImg;        
-		    }else{
-		        return img;
-		    }
+		// Detect rotation
+		int rotation = getRotation(context, selectedImage);
+		if (rotation != 0) {
+			Matrix matrix = new Matrix();
+			matrix.postRotate(rotation);
+			Bitmap rotatedImg = Bitmap.createBitmap(img, 0, 0, img.getWidth(),
+					img.getHeight(), matrix, true);
+			img.recycle();
+			return rotatedImg;
+		} else {
+			return img;
 		}
-
-		/**
-		 * Get the rotation of the last image added.
-		 * @param context
-		 * @param selectedImage
-		 * @return
-		 */
-		private static int getRotation(Context context,Uri selectedImage) {
-		    int rotation =0;
-		    ContentResolver content = context.getContentResolver();
-
-		    Cursor mediaCursor = content.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-		            new String[] { "orientation", "date_added" },null, null,"date_added desc");
-
-		    if (mediaCursor != null && mediaCursor.getCount() !=0 ) {
-		        while(mediaCursor.moveToNext()){
-		            rotation = mediaCursor.getInt(0);
-		            break;
-		        }
-		    }
-		    mediaCursor.close();
-		    return rotation;
-		}
-		
-		private static final int MAX_HEIGHT = 426;
-		private static final int MAX_WIDTH = 320;
-		public static Bitmap decodeSampledBitmap(Context context, Uri selectedImage)
-		        throws IOException {
-
-		    // First decode with inJustDecodeBounds=true to check dimensions
-		    final BitmapFactory.Options options = new BitmapFactory.Options();
-		    options.inJustDecodeBounds = true;
-		    InputStream imageStream = context.getContentResolver().openInputStream(selectedImage);
-		    BitmapFactory.decodeStream(imageStream, null, options);
-		    imageStream.close();
-
-		    // Calculate inSampleSize
-		    options.inSampleSize = calculateInSampleSize(options, MAX_WIDTH, MAX_HEIGHT);
-
-		    // Decode bitmap with inSampleSize set
-		    options.inJustDecodeBounds = false;
-		    imageStream = context.getContentResolver().openInputStream(selectedImage);
-		    Bitmap img = BitmapFactory.decodeStream(imageStream, null, options);
-
-		    img= rotateImageIfRequired(context, img, selectedImage);
-		    return img;
-		} 
-		
-		public static int calculateInSampleSize(
-	            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-	    // Raw height and width of image
-	    final int height = options.outHeight;
-	    final int width = options.outWidth;
-	    int inSampleSize = 1;
-
-	    if (height > reqHeight || width > reqWidth) {
-
-	        final int halfHeight = height / 2;
-	        final int halfWidth = width / 2;
-
-	        // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-	        // height and width larger than the requested height and width.
-	        while ((halfHeight / inSampleSize) > reqHeight
-	                && (halfWidth / inSampleSize) > reqWidth) {
-	            inSampleSize *= 2;
-	        }
-	    }
-
-	    return inSampleSize;
 	}
-	
-	/*private Bitmap decodeFile(File f) throws IOException{
-	    Bitmap b = null;
 
-	    //Decode image size
-	    BitmapFactory.Options o = new BitmapFactory.Options();
-	    o.inJustDecodeBounds = true;
+	/**
+	 * Get the rotation of the last image added.
+	 * 
+	 * @param context
+	 * @param selectedImage
+	 * @return
+	 */
+	private static int getRotation(Context context, Uri selectedImage) {
+		int rotation = 0;
+		ContentResolver content = context.getContentResolver();
 
-	    FileInputStream fis = new FileInputStream(f);
-	    BitmapFactory.decodeStream(fis, null, o);
-	    fis.close();
+		Cursor mediaCursor = content.query(
+				MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new String[] {
+						"orientation", "date_added" }, null, null,
+				"date_added desc");
 
-	    int scale = 1;
-	    if (o.outHeight > IMAGE_MAX_SIZE || o.outWidth > IMAGE_MAX_SIZE) {
-	        scale = (int)Math.pow(2, (int) Math.ceil(Math.log(IMAGE_MAX_SIZE / 
-	           (double) Math.max(o.outHeight, o.outWidth)) / Math.log(0.5)));
-	    }
+		if (mediaCursor != null && mediaCursor.getCount() != 0) {
+			while (mediaCursor.moveToNext()) {
+				rotation = mediaCursor.getInt(0);
+				break;
+			}
+		}
+		mediaCursor.close();
+		return rotation;
+	}
 
-	    //Decode with inSampleSize
-	    BitmapFactory.Options o2 = new BitmapFactory.Options();
-	    o2.inSampleSize = scale;
-	    fis = new FileInputStream(f);
-	    b = BitmapFactory.decodeStream(fis, null, o2);
-	    fis.close();
+	public static Bitmap decodeSampledBitmap(Context context, Uri selectedImage)
+			throws IOException {
 
-	    return b;
-	}*/
+		// First decode with inJustDecodeBounds=true to check dimensions
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		InputStream imageStream = context.getContentResolver().openInputStream(
+				selectedImage);
+		BitmapFactory.decodeStream(imageStream, null, options);
+		imageStream.close();
+
+		// Calculate inSampleSize
+		options.inSampleSize = calculateInSampleSize(options, MAX_WIDTH,
+				MAX_HEIGHT);
+
+		// Decode bitmap with inSampleSize set
+		options.inJustDecodeBounds = false;
+		imageStream = context.getContentResolver().openInputStream(
+				selectedImage);
+		Bitmap img = BitmapFactory.decodeStream(imageStream, null, options);
+
+		img = rotateImageIfRequired(context, img, selectedImage);
+		return img;
+	}
+
+	public static int calculateInSampleSize(BitmapFactory.Options options,
+			int reqWidth, int reqHeight) {
+		// Raw height and width of image
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if (height > reqHeight || width > reqWidth) {
+
+			final int halfHeight = height / 2;
+			final int halfWidth = width / 2;
+
+			// Calculate the largest inSampleSize value that is a power of 2 and
+			// keeps both
+			// height and width larger than the requested height and width.
+			while ((halfHeight / inSampleSize) > reqHeight
+					&& (halfWidth / inSampleSize) > reqWidth) {
+				inSampleSize *= 2;
+			}
+		}
+
+		return inSampleSize;
+	}
 
 	private String gatName(String nama) {
-		String[] x = new String[ nama.split("/").length]   ;
+		String[] x = new String[nama.split("/").length];
 		String result = "";
 		x = nama.split("/");
-		result = x[nama.split("/").length-1];
+		result = x[nama.split("/").length - 1];
 		return result;
 	}
 

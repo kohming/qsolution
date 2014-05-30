@@ -5,16 +5,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import id.qsolution.adapter.RakAdapter;
 import id.qsolution.models.DaftarOutletSurvey;
 import id.qsolution.models.TmBrand;
 import id.qsolution.models.TmCompany;
 import id.qsolution.models.TmGroupRak;
+import id.qsolution.models.TmKategoriBarang;
+import id.qsolution.models.TmKategoriCompanyBrand;
 import id.qsolution.models.TmOutlet;
 import id.qsolution.models.TmRak;
+import id.qsolution.models.TmSubKategoriBarang;
 import id.qsolution.models.TmSurveyor;
 import id.qsolution.models.TtDKunjunganSurveyorRak;
 import id.qsolution.models.TtMKunjunganSurveyor;
@@ -22,8 +26,11 @@ import id.qsolution.models.dao.DaftarOutletSurveyDao;
 import id.qsolution.models.dao.TmBrandDao;
 import id.qsolution.models.dao.TmCompanyDao;
 import id.qsolution.models.dao.TmGroupRakDao;
+import id.qsolution.models.dao.TmKategoriBarangDao;
+import id.qsolution.models.dao.TmKategoriCompanyBrandDao;
 import id.qsolution.models.dao.TmOutletDao;
 import id.qsolution.models.dao.TmRakDao;
+import id.qsolution.models.dao.TmSubKategoriBarangDao;
 import id.qsolution.models.dao.TtDKunjunganSurveyorRakDao;
 import id.qsolution.models.dao.TtMKunjunganSurveyorDao;
 import android.app.TabActivity;
@@ -92,7 +99,7 @@ public class ActivityCreateRak extends TabActivity {
 	private TtMKunjunganSurveyor kunjungan;
 	private DaftarOutletSurvey kategori;
 	private TtMKunjunganSurveyorDao surveyDao;
-	private Double omsetKategori;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -211,6 +218,8 @@ public class ActivityCreateRak extends TabActivity {
 					intent.putExtra("locked",locked);	
 					intent.putExtra("xcoord",xcoord);	
 					intent.putExtra("ycoord",ycoord);	
+					intent.putExtra("brand",brandRak);	
+					intent.putExtra("company",companyBrand);	
 					startActivity(intent);
 					finish();
 					//startActivity(intent);
@@ -337,16 +346,29 @@ public class ActivityCreateRak extends TabActivity {
 					int index, long arg3) {
 				jenisRak = new TmRak();
 				jenisRak = listJenisRak.get(index);
-				if (jenisRak.getBranded() == null) {
+				if (isBranded(jenisRak)) {
+					loadCompanyRak(jenisRak);
+				} else {
+					brandRak =new TmBrand();
 					spnBrandedBrand.setVisibility(View.GONE);
 					spnCompanyBrand.setVisibility(View.GONE);
 					lblBrandedBranded.setVisibility(View.GONE);
 					lblCompanyBranded.setVisibility(View.GONE);
-				} else {
-					loadCompanyRak(jenisRak);
 				}
 				// Toast.makeText(getApplicationContext(),
 				// "branded "+jenisRak.getBranded(), Toast.LENGTH_LONG).show();
+			}
+
+			private boolean isBranded(TmRak jenisRak) {
+				try {
+					if(jenisRak.getBranded().equals("01")){
+						return true;
+					} else{
+						return false;
+					}
+				} catch (Exception e) {
+					return false;
+				}
 			}
 
 			@Override
@@ -365,7 +387,7 @@ public class ActivityCreateRak extends TabActivity {
 		companyBrand.setKode(rak.getBranded());
 		companyBrandDao = new TmCompanyDao(getApplicationContext());
 		listCompanyBrand = new ArrayList<TmCompany>();
-		listCompanyBrand = (ArrayList<TmCompany>) companyBrandDao.listByExample(companyBrand);
+		listCompanyBrand = getCompany(kategori);
 		lsCompanyBrand = new String[listCompanyBrand.size()];
 		for (int i = 0; i < listCompanyBrand.size(); i++) {
 			lsCompanyBrand[i] = listCompanyBrand.get(i).getNama();
@@ -393,6 +415,39 @@ public class ActivityCreateRak extends TabActivity {
 		});
 	}
 	
+	private ArrayList<TmCompany> getCompany(DaftarOutletSurvey kategori2) {
+		ArrayList<TmCompany> result = new ArrayList<TmCompany>();
+		TmKategoriCompanyBrand kcb = new TmKategoriCompanyBrand();
+		TmKategoriCompanyBrandDao kcbDao = new TmKategoriCompanyBrandDao(getApplicationContext());
+		TmCompanyDao companyDao = new TmCompanyDao(getApplicationContext());
+		TmSubKategoriBarang subKategori = new TmSubKategoriBarang();
+		TmSubKategoriBarangDao subKategoriBarangDao = new TmSubKategoriBarangDao(getApplicationContext());
+		TmKategoriBarang kategori = new TmKategoriBarang();
+		TmKategoriBarangDao kategoriDao = new TmKategoriBarangDao(getApplicationContext());
+		kategori.setKode(kategori2.getKodeKategori());
+		HashMap<String, String> maps = new HashMap<String, String>();
+		for (TmKategoriBarang tmKategori : kategoriDao.listByExample(kategori)) {
+			subKategori = new TmSubKategoriBarang();
+			subKategori.setKode_kategori(tmKategori.getKode());
+			for (TmSubKategoriBarang sub : subKategoriBarangDao.listByExample(subKategori)) {
+				kcb = new TmKategoriCompanyBrand();
+				kcb.setKode_sub_kategori(sub.getKode());
+				for (TmKategoriCompanyBrand katComBr : kcbDao.listByExample(kcb)) {
+					maps.put(katComBr.getKode_company(), katComBr.getKode_sub_kategori());
+				}
+			}
+		}
+		Iterator<String> keyIterator = maps.keySet().iterator();
+		while (keyIterator.hasNext()) {
+			String key = keyIterator.next();
+			TmCompany comp = new TmCompany();
+			comp.setKode(key);
+			comp = companyDao.getByExample(comp);
+			result.add(comp);
+		}
+		return result;
+	}
+
 	private void loadBrandRak(TmCompany companyRak) {
 		brandRak = new TmBrand();
 		brandRakDao = new TmBrandDao(getApplicationContext());
@@ -413,6 +468,7 @@ public class ActivityCreateRak extends TabActivity {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int index, long arg3) {
+				brandRak = new TmBrand();
 				brandRak = listRakBrand.get(index);
 			}
 
@@ -433,7 +489,6 @@ public class ActivityCreateRak extends TabActivity {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.selesai, menu);
-
 		return true;
 	}
 	

@@ -1,12 +1,7 @@
 package id.qsolution.adapter;
 
 import id.qsolution.main.R;
-import id.qsolution.models.TmBrand;
-import id.qsolution.models.TmPosm;
 import id.qsolution.models.TtDKunjunganSurveyorOutletPosm;
-import id.qsolution.models.dao.TmBrandDao;
-import id.qsolution.models.dao.TmPosmDao;
-
 import java.util.List;
 import android.app.Activity;
 import android.view.View;
@@ -35,7 +30,7 @@ public class PosmOutletAdapter extends QsolutionAdapter {
 		return v;
 	}
 
-	private String getBrand(String kodeBrand) {
+	/*private String getBrand(String kodeBrand) {
 		String result = "";
 		try {
 			TmBrand brand = new TmBrand();
@@ -47,9 +42,9 @@ public class PosmOutletAdapter extends QsolutionAdapter {
 			result = "";
 		}
 		return result;
-	}
+	}*/
 
-	private String getPosm(String kode) {
+/*	private String getPosm(String kode) {
 		String result = "";
 		try {
 			TmPosm posm = new TmPosm();
@@ -61,6 +56,6 @@ public class PosmOutletAdapter extends QsolutionAdapter {
 			result = "";
 		}
 		return result;
-	}
+	}*/
 
 }

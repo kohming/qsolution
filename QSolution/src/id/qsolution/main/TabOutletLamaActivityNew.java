@@ -2,8 +2,6 @@ package id.qsolution.main;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -12,7 +10,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import id.qsolution.adapter.KatagoriAdapter;
 import id.qsolution.adapter.PhotoAdapter;
 import id.qsolution.models.TmJabatanResponden;
@@ -29,19 +26,14 @@ import id.qsolution.models.dao.TtPhotoDao;
 import id.qsolution.util.NamaFile;
 import android.app.AlertDialog;
 import android.app.TabActivity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Media;
 import android.telephony.TelephonyManager;
@@ -103,6 +95,7 @@ public class TabOutletLamaActivityNew extends TabActivity {
 	private Spinner spnJabatan;
 	private TextView lblOmset;
 	private TtMKunjunganSurveyor kunjungan;
+	private boolean isGetPosition = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -202,26 +195,31 @@ public class TabOutletLamaActivityNew extends TabActivity {
 			break;
 			
 		case R.id.menuLanjut:
-			kunjungan = new TtMKunjunganSurveyor();
-			kunjungan.setKodeOutlet(outlet.getKode());
-			kunjungan.setKodeStatus("01");
-			kunjungan.setJabatanResponden(jabatan.getKode());
-			kunjungan.setJamMulai(mulai);
-			kunjungan.setOmzet(getDouble(txtOmzet.getText().toString().replace(",", "")));
-			kunjungan.setKodeSurveyor(surveyor.getKode());
-			kunjungan.setResponden(txtNamaResponden.getText().toString());
-			kunjungan.setTglSurveySkrg(new SimpleDateFormat("ddMMyyyy").format(new Date()));
-			outlet.setXCoord(getDouble(txtLat.getText().toString()));
-			outlet.setYCoord(getDouble(txtLon.getText().toString()));
-			intent = new Intent( TabOutletLamaActivityNew.this, ActivityPilihKategori.class);
-			intent.putExtra("surveyor", surveyor);
-			intent.putExtra("outlet", outlet);
-			intent.putExtra("locked",locked);	
-			intent.putExtra("xcoord",xcoord);	
-			intent.putExtra("ycoord",ycoord);	
-			intent.putExtra("kunjungan",kunjungan);
-			startActivity(intent);
-			finish();
+			if(isGetPosition){
+				kunjungan = new TtMKunjunganSurveyor();
+				kunjungan.setKodeOutlet(outlet.getKode());
+				kunjungan.setKodeStatus("01");
+				kunjungan.setJabatanResponden(jabatan.getKode());
+				kunjungan.setJamMulai(mulai);
+				kunjungan.setOmzet(getDouble(txtOmzet.getText().toString().replace(",", "")));
+				kunjungan.setKodeSurveyor(surveyor.getKode());
+				kunjungan.setResponden(txtNamaResponden.getText().toString());
+				kunjungan.setTglSurveySkrg(new SimpleDateFormat("ddMMyyyy").format(new Date()));
+				outlet.setXCoord(getDouble(txtLat.getText().toString()));
+				outlet.setYCoord(getDouble(txtLon.getText().toString()));
+				intent = new Intent( TabOutletLamaActivityNew.this, ActivityPilihKategori.class);
+				intent.putExtra("surveyor", surveyor);
+				intent.putExtra("outlet", outlet);
+				intent.putExtra("locked",locked);	
+				intent.putExtra("xcoord",xcoord);	
+				intent.putExtra("ycoord",ycoord);	
+				intent.putExtra("kunjungan",kunjungan);
+				startActivity(intent);
+				finish();
+			}else{
+				Toast.makeText(getApplicationContext(), "Pastikan telah mendapatkan posisi yang baru", Toast.LENGTH_LONG).show();
+			}
+			
 			break;	
 		default:
 			return super.onOptionsItemSelected(item);
@@ -350,21 +348,21 @@ public class TabOutletLamaActivityNew extends TabActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {
-		
 		case 100:
+			isGetPosition = true;
 			xcoord = data.getStringExtra("xcoord");
 			ycoord = data.getStringExtra("ycoord");
 			locked = data.getBooleanExtra("locked", false);
 			txtLon.setText(ycoord);
 			txtLat.setText(xcoord);
 			break;
+		
 			
-		case CAMERA_REQUEST:
+		case 200:
 			try {
 				if(data != null){
-					//Bitmap img = (Bitmap) data.getExtras().get("data");
+					Bitmap img = (Bitmap) data.getExtras().get("data");
 					Uri selectedImageUri = data.getData();
-					
 					path = getRealPathFromURI(selectedImageUri);
 					final EditText input = new EditText(TabOutletLamaActivityNew.this);
 					AlertDialog.Builder alert = new AlertDialog.Builder(TabOutletLamaActivityNew.this);
@@ -450,6 +448,7 @@ public class TabOutletLamaActivityNew extends TabActivity {
 	}
 	
 	
+	
 	private void viewPhoto() {
 		photo = new TtDKunjunganSurveyorPhoto();
 		photoDao = new TtDKunjunganSurveyorPhotoDao(getApplicationContext());
@@ -469,7 +468,7 @@ public class TabOutletLamaActivityNew extends TabActivity {
 					photoDao.delete(photo.getId());
 					File file = new File(photo.getNamaFile());
 					file.delete();
-					Toast.makeText(getApplicationContext(), "Foto telah dihapus", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Foto telah dihapus index "+i, Toast.LENGTH_LONG).show();
 				} catch (Exception e) {
 					Toast.makeText(getApplicationContext(), "Error "+e.getMessage(), Toast.LENGTH_LONG).show();
 				}
@@ -483,11 +482,11 @@ public class TabOutletLamaActivityNew extends TabActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				TtDKunjunganSurveyorPhoto foto = (TtDKunjunganSurveyorPhoto) fotoAdapter.getItem(position);
+				TtPhoto foto = (TtPhoto) fotoAdapter.getItem(position);
 				LayoutInflater inflater = getLayoutInflater();
 				View layout = inflater.inflate(R.layout.toast_img_layout, (ViewGroup) findViewById(R.id.toast_layout_root));
 				ImageView image = (ImageView) layout.findViewById(R.id.image);
-				image.setImageDrawable(Drawable.createFromPath(foto.getNamaFile()));
+				image.setImageDrawable(Drawable.createFromPath(foto.getNama()));
 				Toast toast = new Toast(getApplicationContext());
 				toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
 				toast.setDuration(Toast.LENGTH_SHORT);

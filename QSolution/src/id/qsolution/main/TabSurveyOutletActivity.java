@@ -1,7 +1,6 @@
 package id.qsolution.main;
 
 import id.qsolution.adapter.FasilitasAdapter;
-import id.qsolution.adapter.KatagoriAdapter;
 import id.qsolution.adapter.PhotoAdapter;
 import id.qsolution.models.TmAksesKunjungan;
 import id.qsolution.models.TmFasilitas;
@@ -233,7 +232,7 @@ public class TabSurveyOutletActivity extends TabActivity {
 					if(statusOutlet.equals("MT")){	
 						outlet.setPelanggan(isNullNumber(txtLuasBangunan.getText().toString()));
 						outlet.setKodeJamOperasi(isNull(listWaktuOperasi.get(spnWaktuOperasi.getSelectedItemPosition()).getKode()));
-						outlet.setJumlahCoc(isNullNumber(txtJumlahCoc.getText().toString()));
+						outlet.setJumlahCoc(isNullInt(txtJumlahCoc.getText().toString()));
 					}else{
 						outlet.setPelanggan(isNullNumber(txtJenisPelanggan.getText().toString()));
 						outlet.setAksesToko(isNull(listAksesMasuk.get(spnAksesMasuk.getSelectedItemPosition()).getKode()));
@@ -266,6 +265,16 @@ public class TabSurveyOutletActivity extends TabActivity {
 			result = Long.valueOf(string);
 		} catch (Exception e) {
 			result = 0l;
+		}
+		return result;
+	}
+	
+	private Integer isNullInt(String string) {
+		Integer result = (int) 0l;
+		try {
+			result = Integer.valueOf(string);
+		} catch (Exception e) {
+			return result;
 		}
 		return result;
 	}

@@ -1,17 +1,7 @@
 package id.qsolution.adapter;
 
 import id.qsolution.main.R;
-import id.qsolution.models.TmBrand;
-import id.qsolution.models.TmPosm;
-import id.qsolution.models.TmRak;
-import id.qsolution.models.TtDKunjunganSurveyorOutletPosm;
-import id.qsolution.models.TtDKunjunganSurveyorRak;
 import id.qsolution.models.TtDKunjunganSurveyorRakPosm;
-import id.qsolution.models.dao.TmBrandDao;
-import id.qsolution.models.dao.TmPosmDao;
-import id.qsolution.models.dao.TmRakDao;
-import id.qsolution.models.dao.TtDKunjunganSurveyorRakDao;
-
 import java.util.List;
 import android.app.Activity;
 import android.view.View;
@@ -46,7 +36,7 @@ public class PosmRakAdapter extends QsolutionAdapter {
 		return v;
 	}
 
-	private String getPosm(String kodePosm) {
+	/*private String getPosm(String kodePosm) {
 		String result = "";
 		try {
 			TmPosm p = new TmPosm();
@@ -58,7 +48,7 @@ public class PosmRakAdapter extends QsolutionAdapter {
 			result = "";
 		}
 		return result;
-	}
+	}*/
 
 	
 

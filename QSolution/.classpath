@@ -13,7 +13,6 @@
 	<classpathentry kind="lib" path="libs/httpmime-4.2.3.jar"/>
 	<classpathentry kind="lib" path="libs/xstream-android.jar"/>
 	<classpathentry kind="lib" path="libs/zxingjar-1.1.jar"/>
-	<classpathentry kind="lib" path="/home/popy/workspace_qasa/ActionBarSherlock-4.4.0"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>

@@ -38,8 +38,11 @@ public class TmOutlet implements java.io.Serializable {
 	private String kodeJamOperasi;
 	private long luasBangunan;
 	private long pelanggan;
-	private long jumlahCoc;
+	private Integer jumlahCoc;
+	private String kodeKeyAccount;
 	
+	
+
 	public long getId() {
 		return id;
 	}
@@ -223,14 +226,24 @@ public class TmOutlet implements java.io.Serializable {
 	public void setPelanggan(long pelanggan) {
 		this.pelanggan = pelanggan;
 	}
-
-	public long getJumlahCoc() {
+	
+	public Integer getJumlahCoc() {
 		return jumlahCoc;
 	}
 
-	public void setJumlahCoc(long jumlahCoc) {
+	public void setJumlahCoc(Integer jumlahCoc) {
 		this.jumlahCoc = jumlahCoc;
 	}
+	
+	public String getKodeKeyAccount() {
+		return kodeKeyAccount;
+	}
+
+	public void setKodeKeyAccount(String kodeKeyAccount) {
+		this.kodeKeyAccount = kodeKeyAccount;
+	}
+
+	
 
 	@Override
 	public String toString() {

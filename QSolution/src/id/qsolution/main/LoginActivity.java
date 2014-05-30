@@ -61,13 +61,10 @@ public class LoginActivity extends QsolutionActivity {
 			@Override
 			public void onClick(View v) {
 				TelephonyManager manager = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-				//Toast.makeText(getApplicationContext(), "imei "+manager.getDeviceId(), Toast.LENGTH_LONG).show();
 				if (isNetworkAvailable()) {
 					
 					if(URLIsReachable(GlobalVar.LOGIN_URL)){
-						
-						performSearch(txtUser.getText().toString(), txtPassword
-								.getText().toString(), manager.getDeviceId());
+						performSearch(txtUser.getText().toString(), txtPassword.getText().toString(), manager.getDeviceId());
 					} else{
 						longToast("Service tidak ditemukan");
 					}		

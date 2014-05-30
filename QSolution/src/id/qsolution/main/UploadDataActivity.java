@@ -120,6 +120,7 @@ public class UploadDataActivity extends TabActivity{
 	private TtMKunjunganSurveyorDao kunjunganDao;
 	private ArrayList<TtMKunjunganSurveyor> listKategori;
 	private ArrayAdapter<Kunjungan> kunjunganAdapter;
+	
 
 	
 	
@@ -276,26 +277,23 @@ public class UploadDataActivity extends TabActivity{
 		}
 
 		@Override
-		protected void onPostExecute(final String respons) {
+		protected void onPostExecute(final String result) {
 			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-
-					if (progressDialog != null) {
-						progressDialog.dismiss();
-						progressDialog = null;
-					}
-
-					TmResult result = new TmResult();
-
 					try {
+						if (progressDialog != null) {
+							progressDialog.dismiss();
+							progressDialog = null;
+						}
+						TmResult respons = new TmResult();
 						Gson gson = new Gson();
-						JSONObject file = new JSONObject(respons);
-						result = gson.fromJson(file.getString("tmResult"),TmResult.class);
-						if (result.getMassage().equals("200")) {
+						JSONObject test = new JSONObject(result);
+						respons = gson.fromJson(test.getString("tmResult"), TmResult.class);
+						if(respons.getMassage().equals("200")){
 							kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
 							long[] lChecked = lsData.getCheckItemIds();
-							for (int i = 0; i < lChecked.length; i++) {
+							for(int i = 0;i<lChecked.length;i++){
 								Kunjungan o = kunjunganAdapter.getItem((int) lChecked[i]);
 								TtMKunjunganSurveyor ku = new TtMKunjunganSurveyor();
 								ku.setKode(o.getKode());
@@ -305,19 +303,37 @@ public class UploadDataActivity extends TabActivity{
 							}
 							loadOutlet();
 							longToast("upload berhasil");
-						} else {
-							longToast("upload gagal " + result.getMassage());
+						} else{
+							longToast("upload gagal "+respons.getMassage());
 						}
+						
+						/*if(result.getMassage().equals("200")){
+							kunjunganDao = new TtMKunjunganSurveyorDao(getApplicationContext());
+							long[] lChecked = lsData.getCheckItemIds();
+							for(int i = 0;i<lChecked.length;i++){
+								Kunjungan o = kunjunganAdapter.getItem((int) lChecked[i]);
+								TtMKunjunganSurveyor ku = new TtMKunjunganSurveyor();
+								ku.setKode(o.getKode());
+								ku = kunjunganDao.getByExample(ku);
+								ku.setStatus("upload");
+								kunjunganDao.update(ku);
+							}
+							loadOutlet();
+							//loadSurvey();
+							longToast("upload berhasil");
+						}else{
+							longToast("upload gagal "+result.getMassage());
+						}*/
+						//longToast("upload berhasil");
 					} catch (Exception e) {
-						longToast("JSON error " + e.getMessage());
+						longToast("Error " + e.getMessage());
 					}
 				}
 			});
 		}
 
 		protected void longToast(String msg) {
-			Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(getApplicationContext(), msg , Toast.LENGTH_LONG).show();
 		}
 	}
 	
@@ -882,7 +898,23 @@ public class UploadDataActivity extends TabActivity{
 				olt.setYCoord(outlet.getYCoord());
 				olt.setUpdateDate(outlet.getUpdateDate());
 				olt.setTelepon(outlet.getTelepon());
+				olt.setJumlahCoc(toInt(outlet.getJumlahCoc()));
+				olt.setKodeKeyAccount(outlet.getKodeKeyAccount());
 				return olt;
+			}
+
+			private Integer toInt(Integer jumlahCoc) {
+				Integer result = 0;
+				try {
+					if(jumlahCoc.equals(null) || jumlahCoc== null){
+						result = 0;
+					} else{
+						result = jumlahCoc;
+					}
+				} catch (Exception e) {
+					return result;
+				}
+				return result;
 			}
 
 			private List<Outlet> getOutlet(List<TmOutlet> listByExample) {

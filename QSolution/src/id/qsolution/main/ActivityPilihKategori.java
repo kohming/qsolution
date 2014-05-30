@@ -36,6 +36,7 @@ public class ActivityPilihKategori extends Activity{
 	private DaftarOutletSurveyDao outletSurveyDao;
 	private KatagoriAdapter kategoriAdapter;
 	private ArrayList<DaftarOutletSurvey> listselectedOutletSurvey;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
