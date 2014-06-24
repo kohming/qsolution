@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import id.qsolution.adapter.RakAdapter;
+import id.qsolution.global.GlobalVar;
 import id.qsolution.models.DaftarOutletSurvey;
 import id.qsolution.models.TmBrand;
 import id.qsolution.models.TmCompany;
@@ -99,7 +100,8 @@ public class ActivityCreateRak extends TabActivity {
 	private TtMKunjunganSurveyor kunjungan;
 	private DaftarOutletSurvey kategori;
 	private TtMKunjunganSurveyorDao surveyDao;
-	
+	private DaftarOutletSurveyDao daftarOutletDao;
+	private TmOutletDao outletDao;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +111,14 @@ public class ActivityCreateRak extends TabActivity {
 		setTitle("BUAT RAK");
 		outlet = (TmOutlet) getIntent().getSerializableExtra("outlet");
 		surveyor = (TmSurveyor) getIntent().getSerializableExtra("surveyor");
+		GlobalVar.SURVEYOUR = surveyor.getKode();
+		GlobalVar.OUTLET = outlet.getKode();
 		kategori = (DaftarOutletSurvey) getIntent().getSerializableExtra("kategori");
 		kunjungan = (TtMKunjunganSurveyor) getIntent().getSerializableExtra("kunjungan");
 		surveyDao = new TtMKunjunganSurveyorDao(getApplicationContext());
+		daftarOutletDao = new DaftarOutletSurveyDao(getApplicationContext());
+		outletDao = new TmOutletDao(getApplicationContext());
+		//surveyDao = new TtMKunjunganSurveyorDao(getApplicationContext());
 		locked = getIntent().getBooleanExtra("locked", false);
 		xcoord = getIntent().getStringExtra("xcoord");
 		ycoord = getIntent().getStringExtra("ycoord");
@@ -500,39 +507,42 @@ public class ActivityCreateRak extends TabActivity {
 
 		case R.id.mnuEnd:
 			if(isRakExits()){
-				surveyDao = new TtMKunjunganSurveyorDao(getApplicationContext());
-				//Toast.makeText(getApplicationContext(), "omset "+kunjungan.getOmzet()+" omset kategori " + kunjungan.getOmzetKategori(), Toast.LENGTH_LONG).show();
 				long id = surveyDao.listAll().size() + 1;
-				kunjungan.setId(id);
-				kunjungan.setKode(outlet.getKode() + kategori.getKodeKategori() + new SimpleDateFormat("ddMMyy").format(new Date()));
-				kunjungan.setKodeKategori(kategori.getKodeKategori());
-				kunjungan.setKodeStatus("01");
-				kunjungan.setName(outlet.getNama());
-				kunjungan.setKodeOutlet(outlet.getKode());
-				kunjungan.setKodeSurveyor(surveyor.getKode());
-				kunjungan.setJamSelesai(new SimpleDateFormat("HH:mm:ss").format(new Date()));
-				kunjungan.setTglSurveySkrg(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
-				kunjungan.setTglSurveyBerikut(getTanggalBerikut());
-				kunjungan.setWaktuOperasi(getWaktuOperasi());
-				kunjungan.setXcoord(getX(xcoord));
-				kunjungan.setYcoord(getY(ycoord));
-				kunjungan.setOmzetKategori(getOmsetKategori(kunjungan.getOmzetKategori()));
-				surveyDao.insert(kunjungan);
-				DaftarOutletSurveyDao daftarOutletDao = new DaftarOutletSurveyDao(getApplicationContext());
-				kategori.setStatus("selesai");
-				kategori.setSudahSurvey("1");
-				daftarOutletDao.update(kategori);
-				kategori.setKodeOutlet(outlet.getKode());
-				if(validateOutlet()){
-					TmOutletDao outletDao =new TmOutletDao(getApplicationContext());
-					outlet.setStatus("selesai");
-					outletDao.update(outlet);
-					Toast.makeText(getApplicationContext(), "Data berhasil disimpan", Toast.LENGTH_LONG).show();
-					loadOutlets();
-					
-				}else{
-					loadKategori();
+				try {
+					outlet.setKode(GlobalVar.OUTLET);
+					outlet = outletDao.getByExample(outlet);
+					//Toast.makeText(getApplicationContext(), "omset "+kunjungan.getOmzet()+" omset kategori " + kunjungan.getOmzetKategori(), Toast.LENGTH_LONG).show();
+					kunjungan.setId(id);
+					kunjungan.setKode(outlet.getKode() + kategori.getKodeKategori() + new SimpleDateFormat("ddMMyy").format(new Date()));
+					kunjungan.setKodeKategori(kategori.getKodeKategori());
+					kunjungan.setKodeStatus("01");
+					kunjungan.setName(outlet.getNama());
+					kunjungan.setKodeOutlet(outlet.getKode());
+					kunjungan.setKodeSurveyor(GlobalVar.SURVEYOUR);
+					kunjungan.setJamSelesai(new SimpleDateFormat("HH:mm:ss").format(new Date()));
+					kunjungan.setTglSurveySkrg(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
+					kunjungan.setTglSurveyBerikut(getTanggalBerikut());
+					kunjungan.setWaktuOperasi(getWaktuOperasi());
+					kunjungan.setXcoord(getX(xcoord));
+					kunjungan.setYcoord(getY(ycoord));
+					kunjungan.setOmzetKategori(getOmsetKategori(kunjungan.getOmzetKategori()));
+					surveyDao.insert(kunjungan);
+					kategori.setStatus("selesai");
+					kategori.setSudahSurvey("1");
+					daftarOutletDao.update(kategori);
+					kategori.setKodeOutlet(outlet.getKode());
+					if(validateOutlet()){
+						outlet.setStatus("selesai");
+						outletDao.update(outlet);
+						loadOutlets();
+						Toast.makeText(getApplicationContext(), "Data berhasil disimpan", Toast.LENGTH_LONG).show();
+					}else{
+						loadKategori();
+					}
+				} catch (Exception e) {
+					Toast.makeText(getApplicationContext(), "Error "+e.getMessage(), Toast.LENGTH_LONG).show();
 				}
+				
 			}else{
 				Toast.makeText(getApplicationContext(), "Masih ada rak yang belum selesai diaudit", Toast.LENGTH_LONG).show();
 			}
